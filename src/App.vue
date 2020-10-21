@@ -13,5 +13,6 @@
   flex-direction: column;
   justify-content: center;
   height: 100vh;
+  background-color: rgb(9, 62, 111);
 }
 </style>
