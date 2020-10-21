@@ -4,8 +4,10 @@
 
     <h1>HangMan</h1>
     <div class="home__start">
-      <input type="text" />
-      <input type="text" />
+      <label for="fname">First name:</label>
+      <input type="text" id="fname" name="fname" />
+      <label for="lname">Last name:</label>
+      <input type="text" id="lname" name="lname" />
       <button>Starta spel</button>
     </div>
   </div>
@@ -21,17 +23,20 @@ export default {
 <style scoped>
 .home {
   color: white;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
 .home > h1 {
   text-align: center;
+  margin-top: 10%;
 }
 .home__start {
   display: flex;
-  margin: auto;
   flex-direction: column;
+  margin: auto;
 }
 .home__start > input {
   width: 200px;
