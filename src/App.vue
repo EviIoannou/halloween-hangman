@@ -1,14 +1,19 @@
 <template>
   <div id="app">
+    {{/* BEM */}}
     <router-view />
   </div>
 </template>
 
 <style>
+* {
+  margin: 0;
+}
+
 #app {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   height: 100vh;
+  flex-direction: column;
+  background-color: rgb(9, 62, 111);
 }
 </style>
