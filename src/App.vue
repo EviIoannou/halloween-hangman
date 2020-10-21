@@ -7,11 +7,11 @@
 <style>
 * {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 #app {
-  display: flex;
   height: 100vh;
-  align-items: center;
   background-color: rgb(9, 62, 111);
 }
 </style>
