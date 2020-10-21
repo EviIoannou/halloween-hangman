@@ -12,6 +12,8 @@
 
 #app {
   display: flex;
+  height: 100vh;
   flex-direction: column;
+  background-color: rgb(9, 62, 111);
 }
 </style>
