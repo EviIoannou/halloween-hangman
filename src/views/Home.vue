@@ -6,18 +6,18 @@
         HalloWeen HaNgMaN!1!1!
       </h1>
       <div class="home__inputs">
-        <label for="fname">Spelare Ett</label>
+        <label for="playerone">Spelare Ett</label>
         <input
           type="text"
-          id="fname"
+          id="playerone"
           name="firstname"
           placeholder="Spelare ett"
         />
 
-        <label for="lname">Spelare Två</label>
+        <label for="playertwo">Spelare Två</label>
         <input
           type="text"
-          id="lname"
+          id="playertwo"
           name="lastname"
           placeholder="Spelare två"
         />
