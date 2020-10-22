@@ -32,8 +32,11 @@
 </template>
 
 <script>
+// @ is an alias to /src
+import HelloWorld from "@/components/HelloWorld.vue";
+import WordLength from "@/components/WordLength.vue";
 import TestedLetters from "@/components/TestedLetters.vue"
-import WordLength from '@/components/HelloWorld.vue'
+
 export default {
   name: 'Home',
   components: {
