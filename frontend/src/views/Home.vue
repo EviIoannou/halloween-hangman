@@ -27,14 +27,17 @@
       <button class="home__button">Button</button>
     </div>
     <WordLength msg="3" />
+    <TestedLetters />
   </div>
 </template>
 
 <script>
+import TestedLetters from "@/components/TestedLetters.vue"
 import WordLength from '@/components/HelloWorld.vue'
 export default {
   name: 'Home',
   components: {
+    TestedLetters,
     WordLength
   },
   data() {
