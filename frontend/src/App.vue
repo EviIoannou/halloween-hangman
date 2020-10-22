@@ -12,6 +12,10 @@
 }
 #app {
   height: 100vh;
-  background-color: rgb(9, 62, 111);
+  background-image: url('./assets/bg.jpg');
+  background-repeat: no-repeat;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
 }
 </style>
