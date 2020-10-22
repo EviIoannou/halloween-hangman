@@ -3,30 +3,30 @@
     {{/* BEM */}}
     <div class="home__content">
       <h1>
-        HalloWeen HaNgMaN!1!1!
+        Let's Play Some HaNgMaN 🎃🎃🎃
       </h1>
       <div class="home__inputs">
-        <label for="playerone">Spelare Ett</label>
+        <label for="playerone">Spelare Ett 👻</label>
         <input
           type="text"
           id="playerone"
-          name="firstname"
-          :v-model="player1"
+          name="player"
+          v-model="players[0].name"
           placeholder="Spelare ett"
         />
-
-        <label for="playertwo">Spelare Två</label>
+        <label for="playertwo">Spelare Två 👻</label>
         <input
           type="text"
           id="playertwo"
-          name="lastname"
-          :v-model="player2"
+          name="player"
+          v-model="players[1].name"
           placeholder="Spelare två"
         />
       </div>
-      <button class="home__button">Button</button>
+      <button class="home__button" @click="startGame(players)">
+        Start game
+      </button>
     </div>
-    <WordLength msg="3" />
   </div>
 </template>
 
@@ -39,12 +39,18 @@ export default {
   },
   data() {
     return {
-      player1: '',
-      player2: ''
+      players: [
+        { name: '', id: Math.random(Math.floor(1000 * 1000)) },
+        { name: '', id: Math.random(Math.floor(1000 * 1000)) }
+      ]
     }
   },
-  mounted() {
-    this.player1
+  methods: {
+    startGame(e) {
+      console.log(e)
+      document.getElementById('playerone').value = ''
+      document.getElementById('playertwo').value = ''
+    }
   }
 }
 </script>
@@ -78,6 +84,18 @@ export default {
   margin: 10px 0px;
 }
 .home__button {
-  padding: 10px;
+  box-shadow: 0px 10px 14px -7px #276873;
+  background: linear-gradient(to bottom, #000d21 5%, #a36700 100%);
+  background-color: #000d21;
+  border-radius: 8px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 15px 50px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #3d768a;
 }
 </style>
