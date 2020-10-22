@@ -11,6 +11,7 @@
           type="text"
           id="playerone"
           name="firstname"
+          :v-model="player1"
           placeholder="Spelare ett"
         />
 
@@ -19,6 +20,7 @@
           type="text"
           id="playertwo"
           name="lastname"
+          :v-model="player2"
           placeholder="Spelare två"
         />
       </div>
@@ -30,7 +32,16 @@
 <script>
 export default {
   name: 'Home',
-  components: {}
+  components: {},
+  data() {
+    return {
+      player1: '',
+      player2: ''
+    }
+  },
+  mounted() {
+    this.player1
+  }
 }
 </script>
 
