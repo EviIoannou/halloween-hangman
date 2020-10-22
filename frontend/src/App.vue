@@ -12,6 +12,6 @@
 }
 #app {
   height: 100vh;
-  background-color: rgb(9, 62, 111);
+  background-image: url('./assets/bg.jpg');
 }
 </style>
