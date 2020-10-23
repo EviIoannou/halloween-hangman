@@ -17,5 +17,14 @@
   width: 100%;
   background-position: center;
   background-size: cover;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#app h1{
+  font-family: 'Julee', sans-serif;
+}
+
+#app button {
+  font-family: 'Montserrat', sans-serif;
 }
 </style>
