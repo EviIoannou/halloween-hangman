@@ -26,7 +26,7 @@
       </div>
       <button class="home__button">Button</button>
     </div>
-    <WordLength msg="3" />
+    <WordLength />
     <TestedLetters />
   </div>
 </template>

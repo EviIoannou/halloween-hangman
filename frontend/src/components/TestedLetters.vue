@@ -14,12 +14,23 @@ export default {
         return {
             letters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q",
              "r", "s", "t", "u", "v", "w", "x", "y", "z", "å", "ä", "ö"],
-            testedLetters: []
+            testedLetters: [],
+            counter: 0
         }
     },
     methods: {
         addTestedLetter (letter) {
             this.testedLetters.push(letter)
+            this.counter++
+            if(this.counter > 8){
+                this.disableLetters()
+            }
+        },
+        disableLetters() {
+            this.letters = []; 
+            // this.gameOver()
+            // maybe alert game over - also call upon gameOver func (in secretWord component) to show the word.
+            // if disableLetetrs - the computer won otherwise the player won?
         }
     },
     name:"TestedLetters"

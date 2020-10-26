@@ -1,12 +1,11 @@
 <template>
 <div v-if="word">
+    <h1>{{secretWord}}</h1>
+    <button @click="gameOver()">Game Over</button> 
+    <!-- exchange command to guess word button? with testedletters component -->
     <table>
         <tr>
-            <!-- plats att fylla i bokstäver för framtida spelet -->
-            <!-- <td :key="letter" v-for="letter in word">{{letter}}</td> -->
-        </tr>
-        <tr>
-        <td :key="letter" v-for="letter in word">_</td>
+        <td :key="letter.id" v-for="letter in word">_</td>
         </tr>
     </table>
     </div>
@@ -18,16 +17,25 @@ export default {
         fetch("http://localhost:3000/word")
         .then(response => response.json())
         .then(result => {
-            this.word = result;
-            // console.log(result);
+            let letterObjects = []
+            result.map(l => letterObjects.push ({name: l, id: Math.floor(Math.random () * 10000)}))
+            this.word = letterObjects
         });
     },
     data() {
         return {
         word: [],
+        wordObjects: [],
+        secretWord: '',
         };
     },
-  name: "WordLength",
+    methods:{
+        gameOver() {
+            this.word.map(l => this.wordObjects.push(l.name));
+            this.secretWord = this.wordObjects.join("")
+        }
+    },
+  name: "WordLength"
 };
 </script>
 
