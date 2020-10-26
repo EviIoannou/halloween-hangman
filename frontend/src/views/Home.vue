@@ -27,7 +27,7 @@
       <button class="home__button">Button</button>
     </div>
     <WordLength msg="3" />
-    <TestedLetters />
+    <WordValidation />
   </div>
 </template>
 
@@ -35,12 +35,12 @@
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
 import WordLength from "@/components/WordLength.vue";
-import TestedLetters from "@/components/TestedLetters.vue"
+import WordValidation from "@/components/WordValidation.vue"
 
 export default {
   name: 'Home',
   components: {
-    TestedLetters,
+    WordValidation,
     WordLength
   },
   data() {

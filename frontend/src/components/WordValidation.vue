@@ -2,14 +2,13 @@
     <div id="tested-letters">
             <table>
             <tr>
-                <!-- plats att fylla i bokstäver för framtida spelet -->
                 <template v-for="letter in word">
-                   <td :key="letter" v-if="testedLetters.includes(letter)" >{{letter}}</td> 
-                   <td :key="letter" v-else> </td>
+                   <td :key="letter.id" v-if="testedLetters.includes(letter.name)" >{{letter.name}}</td> 
+                   <td :key="letter.id" v-else> </td>
                 </template>
             </tr>
             <tr>
-                <td :key="letter" v-for="letter in word">_</td>
+                <td :key="letter.id" v-for="letter in word">_</td>
             </tr>
         </table>
         <p>Du har testat: <span v-for="letter in testedLetters" :key="letter"> {{letter}} </span></p>
@@ -29,113 +28,114 @@
             fetch("http://localhost:3000/word")
             .then(response => response.json())
             .then(result => {
-                this.word = result;
-                // console.log(result);
-            });
+                let letterObjects = []
+                result.map(l => letterObjects.push ({name: l, id: Math.floor(Math.random () * 10000)}))
+                this.word = letterObjects
+            })
     },
         data() {
             return {
                 letters: [{
                         name: "a",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 1
                     }, {
                         name: "b",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 2
                     },
                     {
                         name: "b",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 3
                     }, {
                         name: "c",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 4
                     },
                     {
                         name: "e",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 5
                     }, {
                         name: "f",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 6
                     },
                     {
                         name: "g",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 7
                     }, {
                         name: "h",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 8
                     },
                     {
                         name: "i",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 9
                     }, {
                         name: "j",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 10
                     },
                     {
                         name: "k",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 11
                     }, {
                         name: "l",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 12
                     },
                     {
                         name: "m",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 13
                     }, {
                         name: "n",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 14
                     },
                     {
                         name: "o",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 15
                     }, {
                         name: "p",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 16
                     },
                     {
                         name: "q",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 17
                     }, {
                         name: "r",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 18
                     },
                     {
                         name: "s",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 19
                     }, {
                         name: "t",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 20
                     },
                     {
                         name: "u",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 21
                     }, {
                         name: "v",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 22
                     },
                     {
                         name: "w",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 23
                     }, {
                         name: "x",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 24
                     },
                     {
                         name: "y",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 25
                     }, {
                         name: "z",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 26
                     },
                     {
                         name: "å",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 27
                     }, {
                         name: "ä",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 28
                     },
                     {
                         name: "ö",
-                        id: Math.floor(Math.random() * 1000)
+                        id: 29
                     }
                 ],
                 testedLetters: [],
@@ -152,7 +152,7 @@
                 else {this.invalidLetters.push(letter.name)}
             }
         },
-        name: "TestedLetters"
+        name: "WordValidation"
     }
 </script>
 
