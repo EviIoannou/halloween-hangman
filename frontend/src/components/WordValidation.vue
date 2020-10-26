@@ -1,27 +1,40 @@
 <template>
     <div id="tested-letters">
         <table>
+            <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
             <tr>
                 <template v-for="letter in word">
                     <td :key="letter.id" v-if='testedLetters.includes(letter.name) || winner!==""'>{{letter.name}}</td>
                     <td :key="letter.id" v-else> </td>
                 </template>
             </tr>
+            <!-- Gaps for each letter in word -->
             <tr>
                 <td :key="letter.id" v-for="letter in word">_</td>
             </tr>
         </table>
+
+        <!-- maybe letters that have been tested and letters in the word do not need to appear here -->
         <p>Du har testat: <span v-for="letter in testedLetters" :key="letter"> {{letter}} </span></p>
         <p>Bokstäver i ordet: <span v-for="letter in validLetters" :key="letter"> {{letter}} </span></p>
+
+        <!-- Show letters that have been tested and are wrong -->
         <p>Felaktiga bokstäver: <span v-for="letter in invalidLetters" :key="letter"> {{letter}} </span></p>
+
+        <!-- Buttons for each letter; disabled when already tested -->
         <button class="letter" @click="addLetter(letter)" :disabled="testedLetters.includes(letter.name)"
             :key="letter.id" v-for="letter in letters">
             {{letter.name}}
         </button>
+
         <p id="guessWord">
             <button @click="toggleHidden = !toggleHidden">Gissa ordet</button>
+
+            <!-- Hide these elements if players do not want to guess word yet -->
             <input v-if="!toggleHidden" id="guess" type="text" placeholder="Gissa" v-model="guessedWord">
             <button @click="validateWord(123)" v-if="!toggleHidden">Gissa!</button>
+
+            <!-- Hide these elements if no winner yet -->            
             <span v-if='winner !== ""'> {{winner.name}} wins!</span>
             <router-link to="/"><button v-if='winner !== ""' >Börja en ny spel</button></router-link>
         </p>
@@ -34,7 +47,11 @@
             fetch("http://localhost:3000/word")
                 .then(response => response.json())
                 .then(result => {
+                    //Create an array to fill with word's letters
                     let letterObjects = []
+                    
+                    //For each letter of the word, create an object with name (letter) and unique, random id
+                    //to use as key in template
                     result.map(l => letterObjects.push({
                         name: l,
                         id: Math.floor(Math.random() * 10000)
@@ -149,17 +166,18 @@
                 ],
                 guessedWord: "",
                 invalidLetters: [],
-                players : [{name: "Evi", id: 123}, {name: "Panos", id: 456}],
+                players : [{name: "Evi", id: 123}, {name: "Panos", id: 456}], //testing with hardcoded player objects
                 testedLetters: [],
                 toggleHidden: true,
                 validLetters: [],
                 winner: "",
-                // defeated: "",
                 word: [],
             }
         },
         methods: {
             addLetter(letter) {
+                //When clicking on a letter, "push" to validLetters if it's included in the word, 
+                //otherwise push to invalidLetters
                 this.testedLetters.push(letter.name)
                 if (this.word.includes(letter.name)) {
                     this.validLetters.push(letter.name)
@@ -167,21 +185,32 @@
                     this.invalidLetters.push(letter.name)
                 }
             },
+
+            //When clicking on "Gissa ordet", this method is activated and takes player's id as parameter
             validateWord(playerId) {
                 let player= null
+
+                //Find who is the player that guessed the word
                 if (playerId === this.players[0].id) {player = this.players[0]}
                 else {player = this.players[1]}
+
+                //Get the complete word
                 let lettersInWord = this.word.map(w => w.name)
                 let completeWord = lettersInWord.join('')
+
+                //Find winner if player guessed the word right
                 if (completeWord === this.guessedWord) {
                     console.log(`${player.name} wins`)
                     this.winner = player
+
+                //Find winner if player didn't guess the word right
                 } else {
                     console.log(`${player.name} loses`)
                     if(player === this.players[0]) {this.winner = this.players[1]}
                     else {this.winner = this.players[0]}
-                    console.log(this.winner)
                 }
+
+                //Hide "Guess" input field and button; reveal button/router-link to start new game
                 this.toggleHidden = true
             }
         },
