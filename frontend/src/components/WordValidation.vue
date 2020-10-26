@@ -1,5 +1,7 @@
 <template>
-    <div id="tested-letters">
+    <div v-if="word" id="tested-letters">
+        <!-- Show secret word when game is up -->
+        <h1>{{secretWord}}</h1>
         <table>
             <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
             <tr>
@@ -170,8 +172,12 @@
                 testedLetters: [],
                 toggleHidden: true,
                 validLetters: [],
-                winner: "",
+                winner: '',
                 word: [],
+                counter: 0,
+                secretWord: '',
+                lettersInWord: [],
+                completeWord: ''
             }
         },
         methods: {
@@ -183,6 +189,10 @@
                     this.validLetters.push(letter.name)
                 } else {
                     this.invalidLetters.push(letter.name)
+                    this.counter++
+                    if(this.counter > 8){
+                    this.disableLetters()
+                    }  
                 }
             },
 
@@ -194,12 +204,12 @@
                 if (playerId === this.players[0].id) {player = this.players[0]}
                 else {player = this.players[1]}
 
-                //Get the complete word
-                let lettersInWord = this.word.map(w => w.name)
-                let completeWord = lettersInWord.join('')
+                // complete word
+                this.lettersInWord = this.word.map(w => w.name)
+                this.completeWord = this.lettersInWord.join('')
 
                 //Find winner if player guessed the word right
-                if (completeWord === this.guessedWord) {
+                if (this.completeWord === this.guessedWord) {
                     console.log(`${player.name} wins`)
                     this.winner = player
 
@@ -212,6 +222,18 @@
 
                 //Hide "Guess" input field and button; reveal button/router-link to start new game
                 this.toggleHidden = true
+            },
+            disableLetters() {
+                this.letters = [] 
+                this.gameOver()
+                this.winner = ''
+                // if disableLetters - the computer won otherwise the player won?
+                // needs to also disable guess button
+            },
+            gameOver() {
+                this.lettersInWord = this.word.map(w => w.name)
+                this.completeWord = this.lettersInWord.join('')
+                this.secretWord = this.completeWord
             }
         },
         name: "WordValidation"
