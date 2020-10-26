@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="game__item grid__game">
-          <img src="../assets/game.png" />
+          <Hangman />
         </div>
         <div class="game__item grid__words">
           <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
@@ -39,7 +39,11 @@
 </template>
 
 <script>
+import Hangman from '../components/Hangman'
 export default {
+  components: {
+    Hangman
+  },
   computed: {
     listOfWords() {
       return 'abcdefghijklmnopqrstuvwqyzåäö'.split('')
