@@ -27,20 +27,18 @@
       <button class="home__button">Button</button>
      <router-link to="/about"><button>Spela!</button></router-link> 
     </div>
-    <WordLength msg="3" />
+   
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-import WordLength from "@/components/WordLength.vue";
+// import HelloWorld from "@/components/HelloWorld.vue";
+
 
 export default {
   name: 'Home',
-  components: {
-    WordLength
-  },
+
   data() {
     return {
       player1: '',
