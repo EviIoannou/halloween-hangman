@@ -153,3 +153,5 @@ export default {
   border-radius: 4px;
 }
 </style>
+
+const lte = (num) => { prop(från wrongcount ex) props.wrongcount >= num }
