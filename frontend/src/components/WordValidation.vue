@@ -172,7 +172,7 @@
                 testedLetters: [],
                 toggleHidden: true,
                 validLetters: [],
-                winner: null,
+                winner: '',
                 word: [],
                 counter: 0,
                 secretWord: '',
