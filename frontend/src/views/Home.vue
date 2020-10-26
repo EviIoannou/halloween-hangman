@@ -25,9 +25,9 @@
         />
       </div>
       <button class="home__button">Button</button>
+     <router-link to="/about"><button>Spela!</button></router-link> 
     </div>
     <WordLength msg="3" />
-    <TestedLetters />
   </div>
 </template>
 
@@ -35,12 +35,10 @@
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
 import WordLength from "@/components/WordLength.vue";
-import TestedLetters from "@/components/TestedLetters.vue"
 
 export default {
   name: 'Home',
   components: {
-    TestedLetters,
     WordLength
   },
   data() {
