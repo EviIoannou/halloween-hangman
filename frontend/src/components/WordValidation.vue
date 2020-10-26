@@ -1,10 +1,10 @@
 <template>
     <div id="tested-letters">
-            <table>
+        <table>
             <tr>
                 <template v-for="letter in word">
-                   <td :key="letter.id" v-if="testedLetters.includes(letter.name)" >{{letter.name}}</td> 
-                   <td :key="letter.id" v-else> </td>
+                    <td :key="letter.id" v-if='testedLetters.includes(letter.name) || winner!==""'>{{letter.name}}</td>
+                    <td :key="letter.id" v-else> </td>
                 </template>
             </tr>
             <tr>
@@ -18,7 +18,13 @@
             :key="letter.id" v-for="letter in letters">
             {{letter.name}}
         </button>
-    
+        <p id="guessWord">
+            <button @click="toggleHidden = !toggleHidden">Gissa ordet</button>
+            <input v-if="!toggleHidden" id="guess" type="text" placeholder="Gissa" v-model="guessedWord">
+            <button @click="validateWord(123)" v-if="!toggleHidden">Gissa!</button>
+            <span v-if='winner !== ""'> {{winner.name}} wins!</span>
+            <router-link to="/"><button v-if='winner !== ""' >Börja en ny spel</button></router-link>
+        </p>
     </div>
 </template>
 
@@ -26,13 +32,16 @@
     export default {
         created() {
             fetch("http://localhost:3000/word")
-            .then(response => response.json())
-            .then(result => {
-                let letterObjects = []
-                result.map(l => letterObjects.push ({name: l, id: Math.floor(Math.random () * 10000)}))
-                this.word = letterObjects
-            })
-    },
+                .then(response => response.json())
+                .then(result => {
+                    let letterObjects = []
+                    result.map(l => letterObjects.push({
+                        name: l,
+                        id: Math.floor(Math.random() * 10000)
+                    }))
+                    this.word = letterObjects
+                })
+        },
         data() {
             return {
                 letters: [{
@@ -138,18 +147,42 @@
                         id: 29
                     }
                 ],
-                testedLetters: [],
-                validLetters: [],
+                guessedWord: "",
                 invalidLetters: [],
+                players : [{name: "Evi", id: 123}, {name: "Panos", id: 456}],
+                testedLetters: [],
+                toggleHidden: true,
+                validLetters: [],
+                winner: "",
+                // defeated: "",
                 word: [],
-
             }
         },
         methods: {
             addLetter(letter) {
                 this.testedLetters.push(letter.name)
-                if (this.word.includes(letter.name)) {this.validLetters.push(letter.name)}
-                else {this.invalidLetters.push(letter.name)}
+                if (this.word.includes(letter.name)) {
+                    this.validLetters.push(letter.name)
+                } else {
+                    this.invalidLetters.push(letter.name)
+                }
+            },
+            validateWord(playerId) {
+                let player= null
+                if (playerId === this.players[0].id) {player = this.players[0]}
+                else {player = this.players[1]}
+                let lettersInWord = this.word.map(w => w.name)
+                let completeWord = lettersInWord.join('')
+                if (completeWord === this.guessedWord) {
+                    console.log(`${player.name} wins`)
+                    this.winner = player
+                } else {
+                    console.log(`${player.name} loses`)
+                    if(player === this.players[0]) {this.winner = this.players[1]}
+                    else {this.winner = this.players[0]}
+                    console.log(this.winner)
+                }
+                this.toggleHidden = true
             }
         },
         name: "WordValidation"
@@ -171,7 +204,7 @@
         background-color: rgb(172, 172, 172);
     }
 
-    td{
+    td {
         padding-left: 10px;
         font-size: large;
     }
