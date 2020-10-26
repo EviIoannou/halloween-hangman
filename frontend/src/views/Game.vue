@@ -14,7 +14,9 @@
             v-for="(player, index) in players"
             :key="player.id"
           >
-            Spelare {{ index + 1 }}: {{ player.name }}
+            <template v-if="player.name !== ''">
+              Spelare {{ index + 1 }}: {{ player.name }}
+            </template>
           </div>
         </div>
         <div class="game__item grid__game">
