@@ -1,85 +1,155 @@
 <template>
   <div class="home">
     {{/* BEM */}}
-    <div class="home__content">
-      <h1>
-        HalloWeen HaNgMaN!1!1!
-      </h1>
-      <div class="home__inputs">
-        <label for="playerone">Spelare Ett</label>
-        <input
-          type="text"
-          id="playerone"
-          name="firstname"
-          :v-model="player1"
-          placeholder="Spelare ett"
-        />
-
-        <label for="playertwo">Spelare Två</label>
-        <input
-          type="text"
-          id="playertwo"
-          name="lastname"
-          :v-model="player2"
-          placeholder="Spelare två"
-        />
-      </div>
-      <button class="home__button">Button</button>
-     <router-link to="/about"><button>Spela!</button></router-link> 
+    <div class="home__title">
+      <h1>😈 Halloween Hängagubbe 😈</h1>
+      <p>
+        Välkommen till Halloween Hängagubbe. Detta är en spökig upplevelse och
+        ta dig an och möt din vän.
+      </p>
     </div>
-   
+    <div class="home__cont">
+      <div class="home__content">
+        <h1>
+          🦇🎃 Välj namn 🎃🦇
+        </h1>
+        <div class="home__inputs">
+          <span>
+            Spelare Ett 👻
+          </span>
+          <input
+            type="text"
+            id="playerone"
+            name="player"
+            v-model="players[0].name"
+            placeholder="Spelare ett"
+          />
+        </div>
+        <div class="home__inputs">
+          <span>
+            Spelare Två 👻
+          </span>
+          <input
+            type="text"
+            id="playertwo"
+            name="player"
+            v-model="players[1].name"
+            placeholder="Spelare två"
+          />
+        </div>
+      </div>
+      <button
+        class="home__button"
+        :disabled="!players[0].name"
+        @click="startGame(players)"
+      >
+        Start game
+      </button>
+    </div>
+
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
 
+import { v4 as uuidv4 } from 'uuid'
 
 export default {
   name: 'Home',
 
   data() {
     return {
-      player1: '',
-      player2: ''
+      players: [
+        { name: '', id: uuidv4() },
+        { name: '', id: uuidv4() }
+      ]
     }
   },
-  mounted() {
-    this.player1
+  methods: {
+    startGame(players) {
+      document.getElementById('playerone').value = ''
+      document.getElementById('playertwo').value = ''
+      localStorage.setItem('player-storage', JSON.stringify(players))
+      this.$router.push({
+        path: 'game',
+        query: { players: players }
+      })
+    }
   }
 }
 </script>
 
 <style scoped>
 .home {
+  height: 100%;
+  background-image: url('../assets/halloween.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  background-size: cover;
+  flex-direction: column;
+}
+.home__title {
+  height: 20%;
+  color: #e56400;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+}
+.home__title > h1 {
+  padding-bottom: 50px;
 }
 
+.home__cont {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
 .home__content {
-  color: white;
-  margin-bottom: 200px;
+  width: 600px;
+  border: 2px solid #e56400;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.241);
+  padding: 100px;
 }
 .home__content > h1 {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  height: 200px;
+  margin-bottom: 3rem;
+  text-align: center;
+  color: #e56400;
 }
 .home__inputs {
+  width: 100%;
+  align-items: center;
+  margin-bottom: 10px;
   display: flex;
-  justify-content: center;
-  flex-direction: column;
 }
+
+.home__inputs > span {
+  font-size: 20px;
+  color: #e56400;
+  font-weight: bold;
+  width: 40%;
+}
+
 .home__inputs > input {
-  padding: 10px;
-  margin: 10px 0px;
+  padding: 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: black;
+  color: orange;
 }
 .home__button {
-  padding: 10px;
+  margin-top: 5rem;
+  padding: 1.5rem;
+  background-color: #e56400;
+  color: black;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 4px 4px 4px rgba(82, 36, 31, 0.5);
+  border-radius: 4px;
 }
 </style>
