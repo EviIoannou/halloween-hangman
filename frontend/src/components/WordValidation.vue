@@ -229,7 +229,7 @@ export default {
       //When clicking on a letter, "push" to validLetters if it's included in the word,
       //otherwise push to invalidLetters
       this.testedLetters.push(letter.name)
-      if (this.word.includes(letter.name)) {
+      if (this.word.some(l => l.name === letter.name)) {
         this.validLetters.push(letter.name)
       } else {
         this.invalidLetters.push(letter.name)
