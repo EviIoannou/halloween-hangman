@@ -1,7 +1,7 @@
 <template>
   <div v-if="word" id="tested-letters">
     <!-- Show secret word when game is up -->
-    <h1 v-if="winner !==''">{{ completeWord }}</h1>
+    <h2 v-if="winner !==''">{{ completeWord }}</h2>
     <table>
       <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
       <tr>
@@ -20,20 +20,6 @@
         <td :key="letter.id" v-for="letter in word">_</td>
       </tr>
     </table>
-
-    <!-- maybe letters that have been tested and letters in the word do not need to appear here -->
-    <!-- <p>
-      Du har testat:
-      <span v-for="letter in testedLetters" :key="letter"> {{ letter }} </span>
-    </p>
-    <p>
-      Bokstäver i ordet:
-      <span v-for="letter in validLetters" :key="letter"> {{ letter }} </span>
-    </p>
-    <p>
-      Felaktiga bokstäver:
-      <span v-for="letter in invalidLetters" :key="letter"> {{ letter }} </span>
-    </p> -->
 
     <!-- Buttons for each letter; disabled when already tested -->
     <button
@@ -57,18 +43,21 @@
         placeholder="Gissa"
         v-model="guessedWord"
       />
-
-      <!-- Current player's id sent as parameter; Hardcoded to first player now -->
+       <!-- Current player's id sent as parameter; Hardcoded to first player now -->
       <button @click="gameOver(players[0].id)" v-if="!toggleHidden">
         Gissa!
       </button>
-
-      <!-- Hide these elements if no winner yet -->
-      <span v-if="winner !== ''"> {{ winner.name }} wins!</span>
-      <router-link to="/"
-        ><button v-if="winner !== ''">Börja en ny spel</button></router-link
-      >
     </p>
+
+    <!-- Hide these elements if no winner yet -->
+    <div v-if="winner !== ''">
+      <h1> {{ winner.name }} wins!</h1>
+      <router-link to="/">
+        <button>Börja en ny spel</button>
+      </router-link>
+    </div>
+      
+    
   </div>
 </template>
 
@@ -241,7 +230,6 @@ export default {
           this.gameOver(this.players[0].id) 
           }
 
-
       } else {
         this.invalidLetters.push(letter.name)
         this.counter++
@@ -253,7 +241,6 @@ export default {
 
     gameOver(playerId) { // When "game over" is called, 
     //we validate the word, declare winner and hide buttons with letters
-
       this.validateWord(playerId)
       this.letters = []
     }, 
@@ -269,13 +256,11 @@ export default {
       }
 
       //If current player guessed the word right, or chose the last valid letter this player wins
-      if (this.completeWord === this.guessedWord || this.lettersInWord === this.uniqueLetters) {
-        console.log(`${player.name} wins`)
+      if (this.completeWord === this.guessedWord || this.validLetters.length === this.uniqueLetters.length) {
         this.winner = player
 
       //If current player guessed wrong word or chose the last invalid letter, the other player wins
       } else {
-        console.log(`${player.name} loses`)
         if (player === this.players[0]) {
           this.winner = this.players[1]
         } else {
