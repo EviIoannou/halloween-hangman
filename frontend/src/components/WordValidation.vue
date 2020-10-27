@@ -59,7 +59,9 @@
         placeholder="Gissa"
         v-model="guessedWord"
       />
-      <button @click="validateWord(123)" v-if="!toggleHidden">Gissa!</button>
+
+      <!-- Current player's id sent as parameter; Hardcoded to first player now -->
+      <button @click="validateWord(players[0].id)" v-if="!toggleHidden">Gissa!</button>
 
       <!-- Hide these elements if no winner yet -->
       <span v-if="winner !== ''"> {{ winner.name }} wins!</span>
@@ -234,7 +236,7 @@ export default {
       } else {
         this.invalidLetters.push(letter.name)
         this.counter++
-        if (this.counter > 8) {
+        if (this.counter >= 8) {
           this.disableLetters()
         }
       }
@@ -290,7 +292,8 @@ export default {
     invalidLetters() {
       this.$emit('invalidLetters', this.invalidLetters)
     }
-  }
+  },
+  props: {players: Array}
 }
 </script>
 
