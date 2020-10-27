@@ -26,9 +26,11 @@
           <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
             Valda bokstäver
           </h1>
-          <p v-for="(letter, index) in letters" :key="letter[index]">
-            {{ letter }}
-          </p>
+          <div class="grid__word">
+            <p v-for="(letter, index) in letters" :key="letter[index]">
+              {{ letter }}
+            </p>
+          </div>
         </div>
         <div class="game__item grid__letters">
           <WordValidation
@@ -57,6 +59,7 @@ export default {
   },
   methods: {
     onInvalidLetter(letters) {
+      console.log(letters);
       this.letters = letters;
     },
   },
@@ -87,14 +90,13 @@ export default {
   margin: 0 auto;
 }
 .game__header {
-  height: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .game__main {
   display: grid;
-  height: 80vh;
+  height: 100%;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(12, 1fr);
 }
@@ -105,7 +107,6 @@ export default {
 .grid__game {
   grid-row: 2/12;
   grid-column: 2/3;
-  margin-bottom: 2rem;
 }
 .grid__name {
   grid-row: 1/4;
@@ -116,14 +117,19 @@ export default {
   align-content: center;
   grid-column: 3/4;
 }
+.grid__word {
+  display: flex;
+  letter-spacing: 0.5rem;
+}
 .grid__words > p {
   font-size: larger;
 }
 .grid__letters {
-  grid-row: 8/12;
+  grid-row: 8/14;
   display: flex;
   justify-content: center;
   gap: 1rem;
+  margin-top: 2rem;
   grid-column: 1/4;
 }
 .wordbox {
