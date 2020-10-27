@@ -42,30 +42,30 @@
 export default {
   computed: {
     listOfWords() {
-      return 'abcdefghijklmnopqrstuvwqyzåäö'.split('')
-    }
+      return "abcdefghijklmnopqrstuvwqyzåäö".split("");
+    },
   },
   data() {
     return {
-      players: this.$route.query.players
-    }
+      players: this.$route.query.players,
+    };
   },
   mounted() {
-    this.players = JSON.parse(localStorage.getItem('player-storage') || '[]')
+    this.players = JSON.parse(localStorage.getItem("player-storage") || "[]");
   },
   watch: {
     players(newNames) {
-      console.log(newNames)
-      localStorage.players = newNames
-    }
-  }
-}
+      console.log(newNames);
+      localStorage.players = newNames;
+    },
+  },
+};
 </script>
 
 <style scoped>
 .game {
   height: 100%;
-  background-image: url('../assets/halloween.png');
+  background-image: url("../assets/halloween.png");
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
@@ -95,6 +95,7 @@ export default {
 .grid__game {
   grid-row: 2/12;
   grid-column: 2/3;
+  margin-bottom: 2rem;
 }
 .grid__name {
   grid-row: 1/4;
