@@ -1,7 +1,7 @@
 <template>
   <div v-if="word" id="tested-letters">
     <!-- Show secret word when game is up -->
-    <h1>{{ secretWord }}</h1>
+    <h1 v-if="winner !==''">{{ completeWord }}</h1>
     <table>
       <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
       <tr>
@@ -47,7 +47,7 @@
     </button>
 
     <p id="guessWord">
-      <button @click="toggleHidden = !toggleHidden" v-if="winner === '' && secretWord ===''">Gissa ordet</button>
+      <button @click="toggleHidden = !toggleHidden" v-if="winner === ''">Gissa ordet</button>
 
       <!-- Hide these elements if players do not want to guess word yet -->
       <input
@@ -59,14 +59,14 @@
       />
 
       <!-- Current player's id sent as parameter; Hardcoded to first player now -->
-      <button @click="validateWord(players[0].id)" v-if="!toggleHidden">
+      <button @click="gameOver(players[0].id)" v-if="!toggleHidden">
         Gissa!
       </button>
 
       <!-- Hide these elements if no winner yet -->
       <span v-if="winner !== ''"> {{ winner.name }} wins!</span>
       <router-link to="/"
-        ><button v-if="winner !== '' || secretWord !==''">Börja en ny spel</button></router-link
+        ><button v-if="winner !== ''">Börja en ny spel</button></router-link
       >
     </p>
   </div>
@@ -224,7 +224,6 @@ export default {
       winner: '',
       word: [],
       counter: 0,
-      secretWord: '',
       lettersInWord: [],
       completeWord: '',
       uniqueLetters: []
@@ -238,39 +237,43 @@ export default {
       if (this.word.some(l => l.name === letter.name)) {
         this.validLetters.push(letter.name)
 
-        //if all letters are revealed, current player wins; hardcoded so first player wins now
         if (this.validLetters.length === this.uniqueLetters.length) {
-          this.winner = this.players[0]
-          this.gameOver()
+          this.gameOver(this.players[0].id) 
           }
 
-        //
+
       } else {
         this.invalidLetters.push(letter.name)
         this.counter++
         if (this.counter === 8) {
-          this.gameOver()
+          this.gameOver(this.players[0].id)
         }
       }
     },
 
-    //When clicking on "Gissa ordet", this method is activated and takes player's id as parameter
-    validateWord(playerId) {
+    gameOver(playerId) { // When "game over" is called, 
+    //we validate the word, declare winner and hide buttons with letters
+
+      this.validateWord(playerId)
+      this.letters = []
+    }, 
+
+      validateWord(playerId) {
       let player = null
 
-      //Find who is the player that guessed the word
+      //Find who is the current player 
       if (playerId === this.players[0].id) {
         player = this.players[0]
       } else {
         player = this.players[1]
       }
 
-      //Find winner if player guessed the word right
-      if (this.completeWord === this.guessedWord) {
+      //If current player guessed the word right, or chose the last valid letter this player wins
+      if (this.completeWord === this.guessedWord || this.lettersInWord === this.uniqueLetters) {
         console.log(`${player.name} wins`)
         this.winner = player
 
-        //Find winner if player didn't guess the word right
+      //If current player guessed wrong word or chose the last invalid letter, the other player wins
       } else {
         console.log(`${player.name} loses`)
         if (player === this.players[0]) {
@@ -283,16 +286,7 @@ export default {
       //Hide "Guess" input field and button; reveal button/router-link to start new game
       this.toggleHidden = true
     },
-    // disableLetters() {
-    //   this.letters = []
-    //   this.winner = ''
-    //   // if disableLetters - the computer won otherwise the player won?
 
-    // },
-    gameOver() {
-      this.secretWord = this.completeWord
-      this.letters = []
-    }
   },
   name: 'WordValidation',
   watch: {
