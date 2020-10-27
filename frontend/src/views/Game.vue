@@ -20,18 +20,21 @@
           </div>
         </div>
         <div class="game__item grid__game">
-          <img src="../assets/game.png" />
+          <Hangman :letters="letters" />
         </div>
         <div class="game__item grid__words">
           <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
             Valda bokstäver
           </h1>
-          <p>a, t, e ,s</p>
+          <p v-for="(letter, index) in letters" :key="letter[index]">
+            {{ letter }}
+          </p>
         </div>
         <div class="game__item grid__letters">
-          <div v-for="(word, index) in listOfWords" :key="word[index]">
-            <div class="wordbox">{{ word }}</div>
-          </div>
+          <WordValidation
+            :players="players"
+            @invalidLetters="onInvalidLetter"
+          />
         </div>
       </main>
     </div>
@@ -39,16 +42,23 @@
 </template>
 
 <script>
+import Hangman from "../components/Hangman";
+import WordValidation from "@/components/WordValidation.vue";
 export default {
-  computed: {
-    listOfWords() {
-      return "abcdefghijklmnopqrstuvwqyzåäö".split("");
-    },
+  components: {
+    Hangman,
+    WordValidation,
   },
   data() {
     return {
+      letters: [],
       players: this.$route.query.players,
     };
+  },
+  methods: {
+    onInvalidLetter(letters) {
+      this.letters = letters;
+    },
   },
   mounted() {
     this.players = JSON.parse(localStorage.getItem("player-storage") || "[]");

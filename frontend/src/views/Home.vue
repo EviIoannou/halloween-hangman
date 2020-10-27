@@ -46,17 +46,17 @@
         Start game
       </button>
     </div>
+
   </div>
 </template>
 
 <script>
-import WordLength from '@/components/HelloWorld.vue'
+
 import { v4 as uuidv4 } from 'uuid'
+
 export default {
   name: 'Home',
-  components: {
-    WordLength
-  },
+
   data() {
     return {
       players: [
@@ -100,8 +100,7 @@ export default {
 .home__title > h1 {
   padding-bottom: 50px;
 }
-.home__title > p {
-}
+
 .home__cont {
   justify-content: center;
   display: flex;
@@ -154,3 +153,5 @@ export default {
   border-radius: 4px;
 }
 </style>
+
+const lte = (num) => { prop(från wrongcount ex) props.wrongcount >= num }

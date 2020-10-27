@@ -4,11 +4,18 @@
     <li v-for="player in players" :key="player.id">
       {{ player.name }}
     </li>
+    <!-- Testing component with letter buttons and validation; will be in "game.vue" later -->
+    <WordValidation />
   </div>
 </template>
 
 <script>
+  import WordValidation from "@/components/WordValidation.vue"
 export default {
+      components: {
+      WordValidation
+    },
+    name: "About",
   data() {
     return {
       players: this.$route.query.players
@@ -22,3 +29,4 @@ export default {
   color: black;
 }
 </style>
+
