@@ -51,7 +51,7 @@
 
     <!-- Hide these elements if no winner yet -->
     <div v-if="winner !== ''">
-      <h1> {{ winner.name }} wins!</h1>
+      <h1> {{ winner.name }} vinner!</h1>
       <router-link to="/">
         <button>Börja en ny spel</button>
       </router-link>
@@ -262,8 +262,11 @@ export default {
       //If current player guessed wrong word or chose the last invalid letter, the other player wins
       } else {
         if (player === this.players[0]) {
-          this.winner = this.players[1]
-        } else {
+          // if there are more than one players the other player wins, otherwise no one wins
+          if (this.players.length > 1) {this.winner = this.players[1]}
+          else {this.winner = {name: "Ingen", id: 0}}
+        } 
+        else { //if the second player guessed wrong, first player wins
           this.winner = this.players[0]
         }
       }
