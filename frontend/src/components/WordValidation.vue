@@ -22,7 +22,7 @@
     </table>
 
     <!-- maybe letters that have been tested and letters in the word do not need to appear here -->
-    <p>
+    <!-- <p>
       Du har testat:
       <span v-for="letter in testedLetters" :key="letter"> {{ letter }} </span>
     </p>
@@ -30,12 +30,10 @@
       Bokstäver i ordet:
       <span v-for="letter in validLetters" :key="letter"> {{ letter }} </span>
     </p>
-
-    <!-- Show letters that have been tested and are wrong -->
     <p>
       Felaktiga bokstäver:
       <span v-for="letter in invalidLetters" :key="letter"> {{ letter }} </span>
-    </p>
+    </p> -->
 
     <!-- Buttons for each letter; disabled when already tested -->
     <button
@@ -49,7 +47,7 @@
     </button>
 
     <p id="guessWord">
-      <button @click="toggleHidden = !toggleHidden">Gissa ordet</button>
+      <button @click="toggleHidden = !toggleHidden" v-if="winner === '' && secretWord ===''">Gissa ordet</button>
 
       <!-- Hide these elements if players do not want to guess word yet -->
       <input
@@ -61,12 +59,14 @@
       />
 
       <!-- Current player's id sent as parameter; Hardcoded to first player now -->
-      <button @click="validateWord(players[0].id)" v-if="!toggleHidden">Gissa!</button>
+      <button @click="validateWord(players[0].id)" v-if="!toggleHidden">
+        Gissa!
+      </button>
 
       <!-- Hide these elements if no winner yet -->
       <span v-if="winner !== ''"> {{ winner.name }} wins!</span>
       <router-link to="/"
-        ><button v-if="winner !== ''">Börja en ny spel</button></router-link
+        ><button v-if="winner !== '' || secretWord !==''">Börja en ny spel</button></router-link
       >
     </p>
   </div>
@@ -91,6 +91,10 @@ export default {
           })
         )
         this.word = letterObjects
+
+        // complete word
+        this.lettersInWord = this.word.map((w) => w.name)
+        this.completeWord = this.lettersInWord.join('')
       })
   },
   data() {
@@ -236,7 +240,7 @@ export default {
       } else {
         this.invalidLetters.push(letter.name)
         this.counter++
-        if (this.counter >= 8) {
+        if (this.counter === 8) {
           this.disableLetters()
         }
       }
@@ -253,8 +257,8 @@ export default {
       }
 
       // complete word
-      this.lettersInWord = this.word.map((w) => w.name)
-      this.completeWord = this.lettersInWord.join('')
+      // this.lettersInWord = this.word.map((w) => w.name)
+      // this.completeWord = this.lettersInWord.join('')
 
       //Find winner if player guessed the word right
       if (this.completeWord === this.guessedWord) {
@@ -279,11 +283,11 @@ export default {
       this.gameOver()
       this.winner = ''
       // if disableLetters - the computer won otherwise the player won?
-      // needs to also disable guess button
+
     },
     gameOver() {
-      this.lettersInWord = this.word.map((w) => w.name)
-      this.completeWord = this.lettersInWord.join('')
+      // this.lettersInWord = this.word.map((w) => w.name)
+      // this.completeWord = this.lettersInWord.join('')
       this.secretWord = this.completeWord
     }
   },
