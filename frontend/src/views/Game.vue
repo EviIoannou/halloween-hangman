@@ -42,34 +42,40 @@
 </template>
 
 <script>
-import Hangman from '../components/Hangman'
-import WordValidation from '@/components/WordValidation.vue'
+import Hangman from "../components/Hangman";
+import WordValidation from "@/components/WordValidation.vue";
 export default {
   components: {
     Hangman,
-    WordValidation
+    WordValidation,
   },
   data() {
     return {
       letters: [],
-      players: this.$route.query.players
-    }
+      players: this.$route.query.players,
+    };
   },
   methods: {
     onInvalidLetter(letters) {
-      this.letters = letters
-    }
+      this.letters = letters;
+    },
   },
   mounted() {
-    this.players = JSON.parse(localStorage.getItem('player-storage') || '[]')
-  }
-}
+    this.players = JSON.parse(localStorage.getItem("player-storage") || "[]");
+  },
+  watch: {
+    players(newNames) {
+      console.log(newNames);
+      localStorage.players = newNames;
+    },
+  },
+};
 </script>
 
 <style scoped>
 .game {
   height: 100%;
-  background-image: url('../assets/halloween.png');
+  background-image: url("../assets/halloween.png");
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
@@ -99,6 +105,7 @@ export default {
 .grid__game {
   grid-row: 2/12;
   grid-column: 2/3;
+  margin-bottom: 2rem;
 }
 .grid__name {
   grid-row: 1/4;
