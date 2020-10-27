@@ -95,6 +95,9 @@ export default {
         // complete word
         this.lettersInWord = this.word.map((w) => w.name)
         this.completeWord = this.lettersInWord.join('')
+
+      //Get an array with all unique characters in word
+        this.uniqueLetters = [...new Set(this.word.map(l=> l.name))];
       })
   },
   data() {
@@ -103,10 +106,6 @@ export default {
         {
           name: 'a',
           id: 1
-        },
-        {
-          name: 'b',
-          id: 2
         },
         {
           name: 'b',
@@ -227,7 +226,8 @@ export default {
       counter: 0,
       secretWord: '',
       lettersInWord: [],
-      completeWord: ''
+      completeWord: '',
+      uniqueLetters: []
     }
   },
   methods: {
@@ -237,14 +237,23 @@ export default {
       this.testedLetters.push(letter.name)
       if (this.word.some(l => l.name === letter.name)) {
         this.validLetters.push(letter.name)
+
+        //if all letters are revealed, current player wins; hardcoded so first player wins now
+        if (this.validLetters.length === this.uniqueLetters.length) {
+          this.winner = this.players[0]
+          this.gameOver()
+          }
+
+        //
       } else {
         this.invalidLetters.push(letter.name)
         this.counter++
         if (this.counter === 8) {
-          this.disableLetters()
+          this.gameOver()
         }
       }
     },
+
     //When clicking on "Gissa ordet", this method is activated and takes player's id as parameter
     validateWord(playerId) {
       let player = null
@@ -255,10 +264,6 @@ export default {
       } else {
         player = this.players[1]
       }
-
-      // complete word
-      // this.lettersInWord = this.word.map((w) => w.name)
-      // this.completeWord = this.lettersInWord.join('')
 
       //Find winner if player guessed the word right
       if (this.completeWord === this.guessedWord) {
@@ -278,17 +283,15 @@ export default {
       //Hide "Guess" input field and button; reveal button/router-link to start new game
       this.toggleHidden = true
     },
-    disableLetters() {
-      this.letters = []
-      this.gameOver()
-      this.winner = ''
-      // if disableLetters - the computer won otherwise the player won?
+    // disableLetters() {
+    //   this.letters = []
+    //   this.winner = ''
+    //   // if disableLetters - the computer won otherwise the player won?
 
-    },
+    // },
     gameOver() {
-      // this.lettersInWord = this.word.map((w) => w.name)
-      // this.completeWord = this.lettersInWord.join('')
       this.secretWord = this.completeWord
+      this.letters = []
     }
   },
   name: 'WordValidation',
