@@ -12,6 +12,7 @@
 }
 #app {
   height: 100vh;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #app h1{
