@@ -270,23 +270,7 @@
             this.winner = this.players[0]
           }
         }
-        // else { //If current player guessed wrong word or chose the last invalid letter, the other player wins
-        //   if (player == this.players[0]) {
-        //     // if there are more than one players the other player wins, otherwise no one wins
-        //     if (this.players[1].name) {
-        //       this.winner = this.players[1]
-        //     } else {
-        //       this.winner = {
-        //         name: "Pumpan",
-        //         id: 0
-        //       }
-        //       console.log(this.winner)
-        //     }
-        //   } else { //if the second player guessed wrong, first player wins
-        //     this.winner = this.players[0]
-        //   }
-        // }
-
+  
         //Hide "Guess" input field and button; reveal button/router-link to start new game
         this.toggleHidden = true;
       },
