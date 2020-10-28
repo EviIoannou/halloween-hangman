@@ -247,15 +247,21 @@
         //If current player guessed the word right, or chose the last valid letter this player wins
         if (this.completeWord === this.guessedWord || this.validLetters.length === this.uniqueLetters.length) 
         { this.winner = player  } 
+
+        else if (this.guessedWord === "") {
+          this.winner = {
+                name: "Pumpan",
+                id: 0
+              }}
         
-        else { //If current player guessed wrong word or chose the last invalid letter, the other player wins
+        else if(this.completeWord !== this.guessedWord) {
           if (player == this.players[0]) {
             // if there are more than one players the other player wins, otherwise no one wins
             if (this.players[1].name) {
               this.winner = this.players[1]
             } else {
               this.winner = {
-                name: "Ingen",
+                name: "Pumpan",
                 id: 0
               }
               console.log(this.winner)
@@ -264,6 +270,22 @@
             this.winner = this.players[0]
           }
         }
+        // else { //If current player guessed wrong word or chose the last invalid letter, the other player wins
+        //   if (player == this.players[0]) {
+        //     // if there are more than one players the other player wins, otherwise no one wins
+        //     if (this.players[1].name) {
+        //       this.winner = this.players[1]
+        //     } else {
+        //       this.winner = {
+        //         name: "Pumpan",
+        //         id: 0
+        //       }
+        //       console.log(this.winner)
+        //     }
+        //   } else { //if the second player guessed wrong, first player wins
+        //     this.winner = this.players[0]
+        //   }
+        // }
 
         //Hide "Guess" input field and button; reveal button/router-link to start new game
         this.toggleHidden = true;
