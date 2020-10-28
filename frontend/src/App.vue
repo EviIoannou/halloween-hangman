@@ -15,7 +15,7 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-#app h1{
+#app h1, h2{
   font-family: 'Julee', sans-serif;
 }
 

@@ -63,6 +63,7 @@ export default {
   methods: {
     onInvalidLetter(letters) {
       this.letters = letters;
+      console.log(letters)
     },
   },
   mounted() {
@@ -107,6 +108,7 @@ export default {
   justify-content: center;
   display: flex;
   align-items: center;
+  height: 60vh;
 }
 .game__main__header {
   display: flex;
@@ -114,13 +116,16 @@ export default {
 }
 .game__left {
   flex: 0.5;
+  text-align: center;
 }
 .game__right {
   flex: 0.5;
+  text-align: center;
+
 }
 .game__wrongwords {
   display: flex;
-  letter-spacing: 0.3rem;
+  justify-content: center;
 }
 .game__wrongwords > p {
   padding: 0.5rem;
@@ -128,7 +133,7 @@ export default {
   color: white;
   border-radius: 50%;
   margin-left: 0.5rem;
-  text-transform: uppercase;
+  text-align: match-parent;
 }
 .game__letters {
   width: 100%;
