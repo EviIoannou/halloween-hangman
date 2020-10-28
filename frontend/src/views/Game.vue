@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     onInvalidLetter(letters) {
-      console.log(letters);
       this.letters = letters;
     },
   },
