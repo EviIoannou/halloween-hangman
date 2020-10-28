@@ -28,19 +28,19 @@
       </button>
     </div>
     <p id="guessWord">
-      <button @click="toggleHidden = !toggleHidden" v-if="winner === ''">Gissa ordet</button>
+      <button @click="toggleHidden = !toggleHidden" v-if="winner === ''" id="guess-button">Gissa ordet</button>
 
       <!-- Hide these elements if players do not want to guess word yet -->
       <input v-if="!toggleHidden" id="guess" type="text" placeholder="Skriv din gissning här..."
         v-model="guessedWord" />
       <!-- Current player's id sent as parameter; Hardcoded to first player now -->
-      <button @click="gameOver(players[0].id)" v-if="!toggleHidden">
+      <button @click="gameOver(players[0].id)" v-if="!toggleHidden" id="submit-guess">
         Gissa!
       </button>
     </p>
 
     <!-- Hide these elements if no winner yet -->
-    <div v-if="winner !== ''">
+    <div v-if="winner !== ''" class="winner">
       <h1> {{ winner.name }} vinner!</h1>
       <router-link to="/">
         <button>Börja en ny spel</button>
@@ -245,20 +245,20 @@
         }
 
         //If current player guessed the word right, or chose the last valid letter this player wins
-        if (this.completeWord === this.guessedWord || this.validLetters.length === this.uniqueLetters.length) {
-          this.winner = player
-
-          //If current player guessed wrong word or chose the last invalid letter, the other player wins
-        } else {
-          if (player === this.players[0]) {
+        if (this.completeWord === this.guessedWord || this.validLetters.length === this.uniqueLetters.length) 
+        { this.winner = player  } 
+        
+        else { //If current player guessed wrong word or chose the last invalid letter, the other player wins
+          if (player == this.players[0]) {
             // if there are more than one players the other player wins, otherwise no one wins
-            if (this.players.length > 1) {
+            if (this.players[1].name) {
               this.winner = this.players[1]
             } else {
               this.winner = {
                 name: "Ingen",
                 id: 0
               }
+              console.log(this.winner)
             }
           } else { //if the second player guessed wrong, first player wins
             this.winner = this.players[0]
@@ -303,7 +303,7 @@
   }
   
   #letter-buttons {
-       display: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
   }
@@ -327,7 +327,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.5rem;
+    padding: 2rem;
     background-color: black;
   }
 
@@ -353,6 +353,27 @@
     margin: 0px 0.3rem;
     border: 1px solid rgb(95, 62, 1);
     outline-width: 0;
+  }
+
+  #submit-guess {
+  background-color: #e56400;
+  color: black;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px;
+  border-style: none;
+  padding: 0.8rem;
+  }
+
+  #guess-button {
+  background-color:rgb(26, 12, 10);
+  color:  #e56400;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px;
+  border-style: solid;
+  border-color: #e56400;
+  padding: 0.8rem;
   }
 
   td {
