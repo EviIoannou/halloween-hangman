@@ -1,7 +1,6 @@
 <template>
   <div v-if="word" id="tested-letters">
     <!-- Show secret word when game is up -->
-<<<<<<< HEAD
     <h2 v-if="winner !==''">{{ completeWord }}</h2>
     <table>
       <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
@@ -21,44 +20,6 @@
         <td :key="letter.id" v-for="letter in word">_</td>
       </tr>
     </table>
-=======
-    <h1>{{ secretWord }}</h1>
-    <div class="table__center">
-      <table>
-        <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
-        <tr>
-          <template v-for="letter in word">
-            <td
-              :key="letter.id"
-              v-if="testedLetters.includes(letter.name) || winner !== ''"
-            >
-              {{ letter.name }}
-            </td>
-            <td :key="letter.id" v-else></td>
-          </template>
-        </tr>
-        <!-- Gaps for each letter in word -->
-        <tr>
-          <td :key="letter.id" v-for="letter in word">_</td>
-        </tr>
-      </table>
-    </div>
-    <!-- maybe letters that have been tested and letters in the word do not need to appear here -->
-    <p>
-      Du har testat:
-      <span v-for="letter in testedLetters" :key="letter"> {{ letter }} </span>
-    </p>
-    <p>
-      Bokstäver i ordet:
-      <span v-for="letter in validLetters" :key="letter"> {{ letter }} </span>
-    </p>
-
-    <!-- Show letters that have been tested and are wrong -->
-    <p>
-      Felaktiga bokstäver:
-      <span v-for="letter in invalidLetters" :key="letter"> {{ letter }} </span>
-    </p>
->>>>>>> main
 
     <!-- Buttons for each letter; disabled when already tested -->
     <button
@@ -72,13 +33,7 @@
     </button>
 
     <p id="guessWord">
-<<<<<<< HEAD
       <button @click="toggleHidden = !toggleHidden" v-if="winner === ''">Gissa ordet</button>
-=======
-      <button class="buttonWord" @click="toggleHidden = !toggleHidden">
-        Gissa ordet
-      </button>
->>>>>>> main
 
       <!-- Hide these elements if players do not want to guess word yet -->
       <input
@@ -88,26 +43,10 @@
         placeholder="Skriv din gissning här..."
         v-model="guessedWord"
       />
-<<<<<<< HEAD
        <!-- Current player's id sent as parameter; Hardcoded to first player now -->
       <button @click="gameOver(players[0].id)" v-if="!toggleHidden">
         Gissa!
       </button>
-=======
-      <button
-        @click="validateWord(123)"
-        class="buttonWord"
-        v-if="!toggleHidden"
-      >
-        Gissa!
-      </button>
-
-      <!-- Hide these elements if no winner yet -->
-      <span v-if="winner !== ''"> {{ winner.name }} wins!</span>
-      <router-link to="/"
-        ><button v-if="winner !== ''">Börja en ny spel</button></router-link
-      >
->>>>>>> main
     </p>
 
     <!-- Hide these elements if no winner yet -->
@@ -139,7 +78,6 @@ export default {
             name: l,
             id: Math.floor(Math.random() * 10000),
           })
-<<<<<<< HEAD
         )
         this.word = letterObjects
 
@@ -150,11 +88,6 @@ export default {
       //Get an array with all unique characters in word
         this.uniqueLetters = [...new Set(this.word.map(l=> l.name))];
       })
-=======
-        );
-        this.word = letterObjects;
-      });
->>>>>>> main
   },
   data() {
     return {
@@ -164,17 +97,8 @@ export default {
           id: 1,
         },
         {
-<<<<<<< HEAD
           name: 'b',
           id: 3
-=======
-          name: "b",
-          id: 2,
-        },
-        {
-          name: "b",
-          id: 3,
->>>>>>> main
         },
         {
           name: "c",
@@ -289,23 +213,15 @@ export default {
       winner: "",
       word: [],
       counter: 0,
-<<<<<<< HEAD
       lettersInWord: [],
       completeWord: '',
       uniqueLetters: []
     }
-=======
-      secretWord: "",
-      lettersInWord: [],
-      completeWord: "",
-    };
->>>>>>> main
   },
   methods: {
     addLetter(letter) {
       //When clicking on a letter, "push" to validLetters if it's included in the word,
       //otherwise push to invalidLetters
-<<<<<<< HEAD
       this.testedLetters.push(letter.name)
       if (this.word.some(l => l.name === letter.name)) {
         this.validLetters.push(letter.name)
@@ -331,22 +247,6 @@ export default {
 
       validateWord(playerId) {
       let player = null
-=======
-      this.testedLetters.push(letter.name);
-      if (this.word.some((l) => l.name === letter.name)) {
-        this.validLetters.push(letter.name);
-      } else {
-        this.invalidLetters.push(letter.name);
-        this.counter++;
-        if (this.counter > 8) {
-          this.disableLetters();
-        }
-      }
-    },
-    //When clicking on "Gissa ordet", this method is activated and takes player's id as parameter
-    validateWord(playerId) {
-      let player = null;
->>>>>>> main
 
       //Find who is the current player 
       if (playerId === this.players[0].id) {
@@ -355,24 +255,12 @@ export default {
         player = this.players[1];
       }
 
-<<<<<<< HEAD
       //If current player guessed the word right, or chose the last valid letter this player wins
       if (this.completeWord === this.guessedWord || this.validLetters.length === this.uniqueLetters.length) {
         this.winner = player
-=======
-      // complete word
-      this.lettersInWord = this.word.map((w) => w.name);
-      this.completeWord = this.lettersInWord.join("");
-
-      //Find winner if player guessed the word right
-      if (this.completeWord === this.guessedWord) {
-        console.log(`${player.name} wins`);
-        this.winner = player;
->>>>>>> main
 
       //If current player guessed wrong word or chose the last invalid letter, the other player wins
       } else {
-<<<<<<< HEAD
         if (player === this.players[0]) {
           // if there are more than one players the other player wins, otherwise no one wins
           if (this.players.length > 1) {this.winner = this.players[1]}
@@ -380,51 +268,21 @@ export default {
         } 
         else { //if the second player guessed wrong, first player wins
           this.winner = this.players[0]
-=======
-        console.log(`${player.name} loses`);
-        if (player === this.players[0]) {
-          this.winner = this.players[1];
-        } else {
-          this.winner = this.players[0];
->>>>>>> main
         }
       }
 
       //Hide "Guess" input field and button; reveal button/router-link to start new game
       this.toggleHidden = true;
     },
-<<<<<<< HEAD
-
-=======
-    disableLetters() {
-      this.letters = [];
-      this.gameOver();
-      this.winner = "";
-      // if disableLetters - the computer won otherwise the player won?
-      // needs to also disable guess button
-    },
-    gameOver() {
-      this.lettersInWord = this.word.map((w) => w.name);
-      this.completeWord = this.lettersInWord.join("");
-      this.secretWord = this.completeWord;
-    },
->>>>>>> main
   },
   name: "WordValidation",
   watch: {
     invalidLetters() {
-<<<<<<< HEAD
       this.$emit('invalidLetters', this.invalidLetters)
     }
   },
   props: {players: Array}
 }
-=======
-      this.$emit("invalidLetters", this.invalidLetters);
-    },
-  },
-};
->>>>>>> main
 </script>
 
 <style scoped>
