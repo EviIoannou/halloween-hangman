@@ -5,32 +5,37 @@
         <h1>Game On</h1>
       </header>
       <main class="game__main">
-        <div class="game__item grid__name">
-          <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
-            Spelarens namn
-          </h1>
-          <div
-            class="player__name"
-            v-for="(player, index) in players"
-            :key="player.id"
-          >
-            <template v-if="player.name !== ''">
-              Spelare {{ index + 1 }}: {{ player.name }}
-            </template>
+        <div class="game__main__header">
+          <div class="game__left">
+            <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
+              Spelarens namn
+            </h1>
+            <div
+              class="player__name"
+              v-for="(player, index) in players"
+              :key="player.id"
+            >
+              <template v-if="player.name !== ''">
+                Spelare {{ index + 1 }}: {{ player.name }}
+              </template>
+            </div>
+          </div>
+          <div class="game__right">
+            <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
+              Fel bokstav
+            </h1>
+            <div class="game__wrongwords">
+              <p v-for="(letter, index) in letters" :key="letter[index]">
+                {{ letter }}
+              </p>
+            </div>
           </div>
         </div>
-        <div class="game__item grid__game">
+        <div class="game__hangman">
           <Hangman :letters="letters" />
         </div>
-        <div class="game__item grid__words">
-          <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
-            Valda bokstäver
-          </h1>
-          <p v-for="(letter, index) in letters" :key="letter[index]">
-            {{ letter }}
-          </p>
-        </div>
-        <div class="game__item grid__letters">
+
+        <div class="game__letters">
           <WordValidation
             :players="players"
             @invalidLetters="onInvalidLetter"
@@ -87,48 +92,45 @@ export default {
   margin: 0 auto;
 }
 .game__header {
-  height: 10vh;
   display: flex;
+  height: 5vh;
   justify-content: center;
   align-items: center;
 }
 .game__main {
-  display: grid;
-  height: 80vh;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(12, 1fr);
-}
-.game__item {
-  padding: 2rem;
-  text-align: center;
-}
-.grid__game {
-  grid-row: 2/12;
-  grid-column: 2/3;
-  margin-bottom: 2rem;
-}
-.grid__name {
-  grid-row: 1/4;
-  grid-column: 1/1;
-}
-.grid__words {
-  grid-row: 1/4;
-  align-content: center;
-  grid-column: 3/4;
-}
-.grid__words > p {
-  font-size: larger;
-}
-.grid__letters {
-  grid-row: 8/12;
+  height: 100%;
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  grid-column: 1/4;
+  width: 100%;
+  flex-direction: column;
 }
-.wordbox {
-  padding: 1rem;
+.game__hangman {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+.game__main__header {
+  display: flex;
+  width: 100%;
+}
+.game__left {
+  flex: 0.5;
+}
+.game__right {
+  flex: 0.5;
+}
+.game__wrongwords {
+  display: flex;
+  letter-spacing: 0.3rem;
+}
+.game__wrongwords > p {
+  padding: 0.5rem;
   background-color: black;
-  cursor: pointer;
+  color: white;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+  text-transform: uppercase;
+}
+.game__letters {
+  width: 100%;
 }
 </style>
