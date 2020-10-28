@@ -108,7 +108,7 @@ export default {
   justify-content: center;
   display: flex;
   align-items: center;
-  height: 60vh;
+  height: 50vh;
 }
 .game__main__header {
   display: flex;
@@ -133,7 +133,6 @@ export default {
   color: white;
   border-radius: 50%;
   margin-left: 0.5rem;
-  text-align: match-parent;
 }
 .game__letters {
   width: 100%;

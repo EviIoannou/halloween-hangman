@@ -19,7 +19,7 @@
   font-family: 'Julee', sans-serif;
 }
 
-#app button {
+#app button, input {
   font-family: 'Montserrat', sans-serif;
 }
 </style>
