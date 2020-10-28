@@ -2,7 +2,7 @@
   <div v-if="word" id="tested-letters">
     <!-- Show secret word when game is up -->
     <h2 v-if="winner !==''">{{ completeWord }}</h2>
-    <table>
+    <table id="letter-gaps">
       <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
       <tr>
         <template v-for="letter in word">
@@ -21,16 +21,20 @@
       </tr>
     </table>
 
+    <div id="letter-buttons">
+        <button
+          class="letter"
+          @click="addLetter(letter)"
+          :disabled="testedLetters.includes(letter.name)"
+          :key="letter.id"
+          v-for="letter in letters"
+        >
+          {{ letter.name }}
+      </button>
+    </div>
+
     <!-- Buttons for each letter; disabled when already tested -->
-    <button
-      class="letter"
-      @click="addLetter(letter)"
-      :disabled="testedLetters.includes(letter.name)"
-      :key="letter.id"
-      v-for="letter in letters"
-    >
-      {{ letter.name }}
-    </button>
+  
 
     <p id="guessWord">
       <button @click="toggleHidden = !toggleHidden" v-if="winner === ''">Gissa ordet</button>
@@ -302,6 +306,13 @@ button.letter:disabled {
   background-color: white;
   color: black;
   cursor: default;
+}
+
+#letter-buttons, #letter-gaps {
+margin-bottom: 1rem;
+display: flex;
+justify-content: center;
+width: 100%;
 }
 
 #tested-letters {
