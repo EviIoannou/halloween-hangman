@@ -41,9 +41,12 @@
     <!-- Hide these elements if no winner yet -->
     <div v-if="winner !== ''" class="winner">
       <h1> {{ winner.name }} vinner!</h1>
-      <router-link to="/">
+      <p id="link">
+        <router-link to="/">
         <button id="restart">Börja en ny spel</button>
       </router-link>
+      </p>
+      
     </div>
 
 
@@ -373,6 +376,12 @@
   border-radius: 4px;
   border-style: none;
   padding: 0.8rem;
+  }
+
+  .winner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .winner h1{

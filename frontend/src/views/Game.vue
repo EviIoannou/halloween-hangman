@@ -112,7 +112,7 @@ export default {
   justify-content: center;
   display: flex;
   align-items: center;
-  height: 50vh;
+  height: 53vh;
 }
 .game__main__header {
   display: flex;
