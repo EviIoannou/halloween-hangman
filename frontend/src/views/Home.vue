@@ -142,7 +142,7 @@ export default {
   color: orange;
 }
 .home__button {
-  margin-top: 5rem;
+  margin-top: 1rem;
   padding: 1.5rem;
   background-color: #e56400;
   color: black;

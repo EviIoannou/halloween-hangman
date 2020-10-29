@@ -6,7 +6,7 @@
       height="450"
       viewBox="0 0 334 271"
       fill="none"
-      v-if="letters.length >= 1"
+      v-if="letters.length >= 1 || winner.id== 0"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g filter="url(#filter0_d)">
@@ -61,7 +61,7 @@
         width="80"
         x="130"
         y="-70"
-        v-if="letters.length >= 2"
+        v-if="letters.length >= 2 || winner.id== 0"
         height="112"
         viewBox="0 0 80 112"
         fill="none"
@@ -127,7 +127,7 @@
       <svg
         width="88"
         height="52"
-        v-if="letters.length >= 3"
+        v-if="letters.length >= 3 || winner.id== 0"
         x="80"
         y="40"
         viewBox="0 0 88 52"
@@ -189,7 +189,7 @@
         width="90"
         height="51"
         x="170"
-        v-if="letters.length >= 4"
+        v-if="letters.length >= 4 || winner.id== 0"
         y="40"
         viewBox="0 0 90 51"
         fill="none"
@@ -250,7 +250,7 @@
         width="104"
         x="60"
         y="75"
-        v-if="letters.length >= 5"
+        v-if="letters.length >= 5 || winner.id== 0"
         height="66"
         viewBox="0 0 104 66"
         fill="none"
@@ -324,7 +324,7 @@
         height="60"
         x="180"
         y="80"
-        v-if="letters.length >= 6"
+        v-if="letters.length >= 6 || winner.id== 0"
         viewBox="0 0 94 60"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -393,7 +393,7 @@
         height="49"
         x="150"
         y="110"
-        v-if="letters.length >= 7"
+        v-if="letters.length >= 7 || winner.id== 0"
         viewBox="0 0 42 49"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -451,7 +451,7 @@
         x="65"
         y="150"
         viewBox="0 0 219 88"
-        v-if="letters.length >= 8"
+        v-if="letters.length >= 8 || winner.id== 0"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -510,7 +510,7 @@
 
 <script>
 export default {
-  props: ['letters'],
+  props: ['letters', 'winner'],
   name: 'Hangman',
   data() {
     return {}
