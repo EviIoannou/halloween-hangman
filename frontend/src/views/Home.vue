@@ -177,7 +177,7 @@ export default {
   color: orange;
 }
 .home__button {
-  margin-top: 5rem;
+  margin-top: 1rem;
   padding: 1.5rem;
   background-color: #e56400;
   color: black;
@@ -188,3 +188,5 @@ export default {
   border-radius: 4px;
 }
 </style>
+
+const lte = (num) => { prop(från wrongcount ex) props.wrongcount >= num }

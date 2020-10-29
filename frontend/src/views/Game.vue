@@ -5,31 +5,42 @@
         <h1>Game On</h1>
       </header>
       <main class="game__main">
-        <div class="game__item grid__name">
-          <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
-            Spelarens namn
-          </h1>
-          <div
-            class="player__name"
-            v-for="(player, index) in players"
-            :key="player.id"
-          >
-            Spelare {{ index + 1 }}: {{ player.name }}
+        <div class="game__main__header">
+          <div class="game__left">
+            <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
+              Spelarens namn
+            </h1>
+            <div
+              class="player__name"
+              v-for="(player, index) in players"
+              :key="player.id"
+            >
+              <template v-if="player.name !== ''">
+                Spelare {{ index + 1 }}: {{ player.name }}
+              </template>
+            </div>
+          </div>
+          <div class="game__right">
+            <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
+              Fel bokstav
+            </h1>
+            <div class="game__wrongwords">
+              <p v-for="(letter, index) in letters" :key="letter[index]">
+                {{ letter }}
+              </p>
+            </div>
           </div>
         </div>
-        <div class="game__item grid__game">
-          <img src="../assets/game.png" />
+        <div class="game__hangman">
+          <Hangman :letters="letters" :winner="winner"/>
         </div>
-        <div class="game__item grid__words">
-          <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
-            Valda bokstäver
-          </h1>
-          <p>a, t, e ,s</p>
-        </div>
-        <div class="game__item grid__letters">
-          <div v-for="(word, index) in listOfWords" :key="word[index]">
-            <div class="wordbox">{{ word }}</div>
-          </div>
+
+        <div class="game__letters">
+          <WordValidation
+            :players="players"
+            @invalidLetters="onInvalidLetter"
+            @winner="onWinner"
+          />
         </div>
       </main>
     </div>
@@ -37,33 +48,44 @@
 </template>
 
 <script>
+import Hangman from "../components/Hangman";
+import WordValidation from "@/components/WordValidation.vue";
 export default {
-  computed: {
-    listOfWords() {
-      return 'abcdefghijklmnopqrstuvwqyzåäö'.split('')
-    }
+  components: {
+    Hangman,
+    WordValidation,
   },
   data() {
     return {
-      players: this.$route.query.players
+      letters: [],
+      players: this.$route.query.players,
+      winner:""
+    };
+  },
+  methods: {
+    onInvalidLetter(letters) {
+      this.letters = letters;
+    },
+    onWinner(winner){
+      this.winner = winner
     }
   },
   mounted() {
-    this.players = JSON.parse(localStorage.getItem('player-storage') || '[]')
+    this.players = JSON.parse(localStorage.getItem("player-storage") || "[]");
   },
   watch: {
     players(newNames) {
-      console.log(newNames)
-      localStorage.players = newNames
-    }
-  }
-}
+      console.log(newNames);
+      localStorage.players = newNames;
+    },
+  },
+};
 </script>
 
 <style scoped>
 .game {
   height: 100%;
-  background-image: url('../assets/halloween.png');
+  background-image: url("../assets/halloween.png");
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
@@ -75,47 +97,48 @@ export default {
   margin: 0 auto;
 }
 .game__header {
-  height: 10vh;
   display: flex;
+  height: 5vh;
   justify-content: center;
   align-items: center;
 }
 .game__main {
-  display: grid;
-  height: 80vh;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(12, 1fr);
+  height: 100%;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
 }
-.game__item {
-  padding: 2rem;
+.game__hangman {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  height: 53vh;
+}
+.game__main__header {
+  display: flex;
+  width: 100%;
+}
+.game__left {
+  flex: 0.5;
   text-align: center;
 }
-.grid__game {
-  grid-row: 2/12;
-  grid-column: 2/3;
+.game__right {
+  flex: 0.5;
+  text-align: center;
+
 }
-.grid__name {
-  grid-row: 1/4;
-  grid-column: 1/1;
-}
-.grid__words {
-  grid-row: 1/4;
-  align-content: center;
-  grid-column: 3/4;
-}
-.grid__words > p {
-  font-size: larger;
-}
-.grid__letters {
-  grid-row: 8/12;
+.game__wrongwords {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  grid-column: 1/4;
 }
-.wordbox {
-  padding: 1rem;
+.game__wrongwords > p {
+  padding: 0.5rem;
   background-color: black;
-  cursor: pointer;
+  color: white;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+}
+.game__letters {
+  width: 100%;
 }
 </style>
