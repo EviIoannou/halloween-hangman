@@ -5,6 +5,9 @@
         <h1>Game On</h1>
       </header>
       <main class="game__main">
+        <select id="gameChange">
+          <option v-for="hallo in Halloween" :value="hallo">{{ hallo }}</option>
+        </select>
         <div class="game__main__header">
           <div class="game__left">
             <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
@@ -54,15 +57,32 @@ export default {
     Hangman,
     WordValidation,
   },
+  mounted() {},
   data() {
     return {
       letters: [],
       players: this.$route.query.players,
+      Halloween: ["Spöke", "Ghost", "fotboll"],
+      Sport: ["Fotboll", "Basket", "fotboll"],
+      Tv: ["Svenska", "banan", "fotboll"],
     };
   },
   methods: {
     onInvalidLetter(letters) {
       this.letters = letters;
+    },
+
+    generateData(dictionary) {
+      if (select.value === "halloween") {
+        console.log("hallo", dictionary);
+        return dictionary[Math.floor(Math.random() * dictionary.length)];
+      } else if (select.value === "sport") {
+        console.log("sport", dictionary);
+        return dictionary[Math.floor(Math.random() * dictionary.length)];
+      } else if (select.value === "tv") {
+        console.log("tv", dictionary);
+        return dictionary[Math.floor(Math.random() * dictionary.length)];
+      }
     },
   },
   mounted() {

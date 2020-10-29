@@ -243,7 +243,7 @@ export default {
       } else {
         this.invalidLetters.push(letter.name);
         this.counter++;
-        if (this.counter > 8) {
+        if (this.counter >= 8) {
           this.disableLetters();
         }
       }
@@ -292,6 +292,9 @@ export default {
       this.lettersInWord = this.word.map((w) => w.name);
       this.completeWord = this.lettersInWord.join("");
       this.secretWord = this.completeWord;
+      const enteringSound = require("../assets/wickedwitchlaugh.mp3");
+      const audio = new Audio(enteringSound);
+      audio.play();
     },
   },
   name: "WordValidation",
