@@ -2,6 +2,7 @@
   <div v-if="word" id="tested-letters">
     <!-- Show secret word when game is up -->
     <h2 v-if="winner !==''">{{ completeWord }}</h2>
+    <h2>{{currentPlayer.name}}</h2>
     <div id="missing-letters">
       <table>
         <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
@@ -53,7 +54,27 @@
 
 <script>
   export default {
-    props: ["players"],
+   computed:{
+     currentPlayer() { 
+       let player ;
+       let i;
+       for(i = 0; i < this.players.length ; i++){
+         let index = i;
+         setTimeout(() => {
+           player = this.players[index]
+           console.log(player.name)
+         }, index * 5000)
+       }
+       return player       
+}
+
+  //     let i = 0;
+  // let players = this.players
+  //     let player = setInterval(function(){
+  //     players[i].id
+  //     i++;
+  //     }, 1000);
+   },
     created() {
       fetch("http://localhost:3000/word")
         .then((response) => response.json())
@@ -274,6 +295,7 @@
         //Hide "Guess" input field and button; reveal button/router-link to start new game
         this.toggleHidden = true;
       },
+    
     },
     name: "WordValidation",
     watch: {
