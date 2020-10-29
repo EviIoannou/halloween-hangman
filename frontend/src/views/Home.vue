@@ -9,6 +9,17 @@
       </p>
     </div>
     <div class="home__cont">
+      <select
+        name="gameGenre"
+        v-model="selected"
+        :required="true"
+        @change="selectGenre($event)"
+      >
+        <option :selected="true">Välj genre</option>
+        <option v-for="option in pickGenre" :value="option">{{
+          option
+        }}</option>
+      </select>
       <div class="home__content">
         <h1>
           🦇🎃 Välj namn 🎃🦇
@@ -46,43 +57,67 @@
         Start game
       </button>
     </div>
-
   </div>
 </template>
 
 <script>
-
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from "uuid";
 
 export default {
-  name: 'Home',
+  name: "Home",
 
   data() {
     return {
       players: [
-        { name: '', id: uuidv4() },
-        { name: '', id: uuidv4() }
-      ]
-    }
+        { name: "", id: uuidv4() },
+        { name: "", id: uuidv4() },
+      ],
+      pickGenre: ["halloween", "sport", "tv"],
+      selected: "Välj genre",
+      pick: "",
+    };
   },
   methods: {
+    selectGenre(e) {
+      const pick = e.target.value;
+
+      if (pick === "halloween") {
+        console.log((this.pick = pick));
+      } else if (pick === "sport") {
+        console.log((this.pick = pick));
+      } else if (pick === "tv") {
+        console.log((this.pick = pick));
+      }
+    },
     startGame(players) {
-      document.getElementById('playerone').value = ''
-      document.getElementById('playertwo').value = ''
-      localStorage.setItem('player-storage', JSON.stringify(players))
+      document.getElementById("playerone").value = "";
+      document.getElementById("playertwo").value = "";
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ genre: this.pick }),
+      };
+      fetch("http://localhost:3000/word", requestOptions)
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((res) => console.error(res));
+
+      localStorage.setItem("player-storage", JSON.stringify(players));
       this.$router.push({
-        path: 'game',
-        query: { players: players }
-      })
-    }
-  }
-}
+        path: "game",
+        query: { players: players },
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
 .home {
   height: 100%;
-  background-image: url('../assets/halloween.png');
+  background-image: url("../assets/halloween.png");
   background-repeat: no-repeat;
   background-position: center;
   display: flex;
