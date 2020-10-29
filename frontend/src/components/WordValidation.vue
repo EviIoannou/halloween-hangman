@@ -1,12 +1,16 @@
 <template>
   <div v-if="word" id="tested-letters">
     <!-- Show secret word when game is up -->
+<<<<<<< HEAD
     <h2 v-if="winner !==''">{{ completeWord }}</h2>
     <h2>{{currentPlayer.name}}</h2>
+=======
+    <!-- <h2 v-if="winner !==''">{{ completeWord }}</h2> -->
+>>>>>>> main
     <div id="missing-letters">
       <table>
         <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
-        <tr>
+        <tr id="hidden-letters">
           <template v-for="letter in word">
             <td :key="letter.id" v-if="testedLetters.includes(letter.name) || winner !== ''">
               {{ letter.name }}
@@ -22,15 +26,14 @@
     </div>
 
     <!-- Buttons for each letter; disabled when already tested -->
-    <div id="letter-buttons">
+    <div id="letter-buttons" v-if="letters.length > 0">
       <button class="letter" @click="addLetter(letter)" :disabled="testedLetters.includes(letter.name)" :key="letter.id"
         v-for="letter in letters">
         {{ letter.name }}
       </button>
     </div>
-    <p id="guessWord">
-      <button @click="toggleHidden = !toggleHidden" v-if="winner === ''" id="guess-button">Gissa ordet</button>
-
+    <p id="guessWord" v-if="letters.length > 0">
+      <button @click="toggleHidden = !toggleHidden" v-if="winner === ''" id="guess-button">Gissa ordet ?</button>
       <!-- Hide these elements if players do not want to guess word yet -->
       <input v-if="!toggleHidden" id="guess" type="text" placeholder="Skriv din gissning här..."
         v-model="guessedWord" />
@@ -43,9 +46,12 @@
     <!-- Hide these elements if no winner yet -->
     <div v-if="winner !== ''" class="winner">
       <h1> {{ winner.name }} vinner!</h1>
-      <router-link to="/">
-        <button>Börja en ny spel</button>
+      <p id="link">
+        <router-link to="/">
+        <button id="restart">Börja en ny spel</button>
       </router-link>
+      </p>
+      
     </div>
 
 
@@ -301,6 +307,9 @@
     watch: {
       invalidLetters() {
         this.$emit('invalidLetters', this.invalidLetters)
+      },
+      winner(){
+        this.$emit('winner', this.winner)
       }
     },
     props: {
@@ -334,6 +343,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 1em;
   }
 
   #missing-letters {
@@ -341,10 +351,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-bottom: 1em;
   }
 
   #tested-letters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: rgba(46, 46, 46, 0.671);
+    border-radius: 8px;
+    height: 100%
   }
 
   #tested-letters>h1 {
@@ -355,23 +372,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
-    background-color: black;
-  }
-
-  .buttonWord {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
-    color: orange;
-  }
-
-  .table__center {
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-    display: flex;
+    margin-bottom: 1em;
   }
 
   #guess {
@@ -383,7 +384,7 @@
     outline-width: 0;
   }
 
-  #submit-guess {
+  #submit-guess, #restart {
   background-color: #e56400;
   color: black;
   cursor: pointer;
@@ -394,18 +395,36 @@
   }
 
   #guess-button {
-  background-color:rgb(26, 12, 10);
-  color:  #e56400;
+  background-color: rgba(0, 0, 0, 0.5);
+  color:  #cc5800;
   cursor: pointer;
   font-weight: bold;
   border-radius: 4px;
-  border-style: solid;
-  border-color: #e56400;
+  border-style: none;
   padding: 0.8rem;
   }
 
-  td {
-    padding-left: 10px;
-    font-size: large;
+  .winner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+
+  .winner h1{
+    margin-bottom: 0.5em;
+  }
+
+  .winner button {
+    margin-bottom: 1em;
+  }
+
+  #hidden-letters{
+    height: 3vh;
+  }
+
+  td {
+    width: 5vh;
+    padding: 0;
+    font-size: large;
+  } 
 </style>
