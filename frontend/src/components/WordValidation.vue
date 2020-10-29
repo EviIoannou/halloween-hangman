@@ -1,12 +1,10 @@
 <template>
   <div v-if="word" id="tested-letters">
     <!-- Show secret word when game is up -->
-<<<<<<< HEAD
-    <h2 v-if="winner !==''">{{ completeWord }}</h2>
-    <h2>{{currentPlayer.name}}</h2>
-=======
     <!-- <h2 v-if="winner !==''">{{ completeWord }}</h2> -->
->>>>>>> main
+    <h2 v-if="timeLeft">{{timeLeft}}</h2>
+    <h2 v-if="currentPlayer">{{currentPlayer.name}}</h2>
+
     <div id="missing-letters">
       <table>
         <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
@@ -60,27 +58,6 @@
 
 <script>
   export default {
-   computed:{
-     currentPlayer() { 
-       let player ;
-       let i;
-       for(i = 0; i < this.players.length ; i++){
-         let index = i;
-         setTimeout(() => {
-           player = this.players[index]
-           console.log(player.name)
-         }, index * 5000)
-       }
-       return player       
-}
-
-  //     let i = 0;
-  // let players = this.players
-  //     let player = setInterval(function(){
-  //     players[i].id
-  //     i++;
-  //     }, 1000);
-   },
     created() {
       fetch("http://localhost:3000/word")
         .then((response) => response.json())
@@ -104,10 +81,15 @@
 
           //Get an array with all unique characters in word
           this.uniqueLetters = [...new Set(this.word.map(l => l.name))];
+
+          this.timer()
+
+          // this.findCurrentPlayer()
         })
     },
     data() {
       return {
+        currentPlayer: "",
         letters: [{
             name: "a",
             id: 1,
@@ -231,7 +213,8 @@
         counter: 0,
         lettersInWord: [],
         completeWord: '',
-        uniqueLetters: []
+        uniqueLetters: [],
+        timeLeft: null
       }
     },
     methods: {
@@ -301,6 +284,26 @@
         //Hide "Guess" input field and button; reveal button/router-link to start new game
         this.toggleHidden = true;
       },
+
+    timer(){
+      let timeSec = 11
+      let timeSecLeft = timeSec
+      for (let i = 0; i < timeSec; i++) {
+        setTimeout(() => {
+          timeSecLeft--
+          this.timeLeft = timeSecLeft
+        }, 1000*(i+1))
+}
+},
+      findCurrentPlayer() {
+        this.players.forEach((p, index) => {
+          setInterval(()=>{
+            this.currentPlayer = p
+            console.log(this.currentPlayer)
+          }, (index+1) * 6000)
+        })
+
+      }
     
     },
     name: "WordValidation",
