@@ -16,9 +16,9 @@
         @change="selectGenre($event)"
       >
         <option :selected="true">Välj genre</option>
-        <option v-for="option in pickGenre" :value="option">{{
-          option
-        }}</option>
+        <option v-for="option in pickGenre" :value="option">
+          {{ option }}</option
+        >
       </select>
       <div class="home__content">
         <h1>
@@ -82,27 +82,21 @@ export default {
       const pick = e.target.value;
 
       if (pick === "halloween") {
-        console.log((this.pick = pick));
+        return (this.pick = pick);
       } else if (pick === "sport") {
-        console.log((this.pick = pick));
+        return (this.pick = pick);
       } else if (pick === "tv") {
-        console.log((this.pick = pick));
+        return (this.pick = pick);
       }
     },
     startGame(players) {
       document.getElementById("playerone").value = "";
       document.getElementById("playertwo").value = "";
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ genre: this.pick }),
-      };
-      fetch("http://localhost:3000/word", requestOptions)
+      const pickedWord = this.pick;
+      console.log(pickedWord);
+      fetch(`http://localhost:3000/word/${pickedWord}`)
         .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((res) => console.error(res));
+        .then((data) => data);
 
       localStorage.setItem("player-storage", JSON.stringify(players));
       this.$router.push({
@@ -188,5 +182,3 @@ export default {
   border-radius: 4px;
 }
 </style>
-
-const lte = (num) => { prop(från wrongcount ex) props.wrongcount >= num }
