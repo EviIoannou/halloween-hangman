@@ -1,10 +1,9 @@
 <template>
   <div v-if="word" id="tested-letters">
-    <!-- Show secret word when game is up -->
-    <!-- <h2 v-if="winner !==''">{{ completeWord }}</h2> -->
-    <h2 v-if="timeLeft">{{timeLeft}}</h2>
-    <h2 v-if="currentPlayer">{{currentPlayer.name}}</h2>
-
+    <!-- Show how much time is left, if we don't have a winner yet -->
+    <div id="timer"><h2 v-if="timeLeft && !winner">{{timeLeft}}</h2> </div>
+    <div id="play-area">
+   
     <div id="missing-letters">
       <table>
         <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
@@ -49,10 +48,8 @@
         <button id="restart">Börja en ny spel</button>
       </router-link>
       </p>
-      
     </div>
-
-
+    </div>
   </div>
 </template>
 
@@ -83,13 +80,13 @@
           this.uniqueLetters = [...new Set(this.word.map(l => l.name))];
 
           this.timer()
-
           // this.findCurrentPlayer()
+
         })
     },
     data() {
       return {
-        currentPlayer: "",
+        // currentPlayer: "",
         letters: [{
             name: "a",
             id: 1,
@@ -214,9 +211,12 @@
         lettersInWord: [],
         completeWord: '',
         uniqueLetters: [],
-        timeLeft: null
+        timeLeft: null,
+        intervalId: null,
+        timerId: null
       }
     },
+  
     methods: {
       addLetter(letter) {
         //When clicking on a letter, "push" to validLetters if it's included in the word,
@@ -242,6 +242,7 @@
         //we validate the word, declare winner and hide buttons with letters
         this.validateWord(playerId)
         this.letters = []
+        this.timeLeft = null
       },
 
       validateWord(playerId) {
@@ -289,21 +290,27 @@
       let timeSec = 11
       let timeSecLeft = timeSec
       for (let i = 0; i < timeSec; i++) {
-        setTimeout(() => {
+        this.timerId = setTimeout(() => {
           timeSecLeft--
           this.timeLeft = timeSecLeft
+          //when time is up, pumpkin wins; might be adjusted when we fix turn taking between players
+          if(this.timeLeft === 0 && this.winner=== "") {this.gameOver()}
         }, 1000*(i+1))
 }
 },
-      findCurrentPlayer() {
-        this.players.forEach((p, index) => {
-          setInterval(()=>{
-            this.currentPlayer = p
-            console.log(this.currentPlayer)
-          }, (index+1) * 6000)
-        })
-
-      }
+      //a function to change player after some time; 
+      //could not clear the interval though to stop the loop 
+      //and could not make so that first player appears directly when screen is loaded
+      //so it is not used in the template right now
+      // findCurrentPlayer() {
+      // this.players.forEach((p, index) => {
+      //     this.intervalId = setInterval(()=>{
+      //       this.currentPlayer = p
+      //       console.log(this.currentPlayer)
+      //       this.timer()
+      //     }, (index+1) * 10000)
+      //   })
+      // }
     
     },
     name: "WordValidation",
@@ -359,7 +366,6 @@
 
   #tested-letters {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: rgba(46, 46, 46, 0.671);
@@ -371,6 +377,9 @@
     text-align: center;
   }
 
+  #timer {
+    width: 10%
+  }
   #guessWord {
     display: flex;
     justify-content: center;
