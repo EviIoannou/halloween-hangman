@@ -32,13 +32,14 @@
           </div>
         </div>
         <div class="game__hangman">
-          <Hangman :letters="letters" />
+          <Hangman :letters="letters" :winner="winner"/>
         </div>
 
         <div class="game__letters">
           <WordValidation
             :players="players"
             @invalidLetters="onInvalidLetter"
+            @winner="onWinner"
           />
         </div>
       </main>
@@ -58,13 +59,16 @@ export default {
     return {
       letters: [],
       players: this.$route.query.players,
+      winner:""
     };
   },
   methods: {
     onInvalidLetter(letters) {
       this.letters = letters;
-      console.log(letters)
     },
+    onWinner(winner){
+      this.winner = winner
+    }
   },
   mounted() {
     this.players = JSON.parse(localStorage.getItem("player-storage") || "[]");

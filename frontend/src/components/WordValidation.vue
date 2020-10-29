@@ -278,6 +278,9 @@
     watch: {
       invalidLetters() {
         this.$emit('invalidLetters', this.invalidLetters)
+      },
+      winner(){
+        this.$emit('winner', this.winner)
       }
     },
     props: {
