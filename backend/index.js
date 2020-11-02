@@ -1,11 +1,25 @@
 const express = require('express')
+const app = express()
+const server = app.listen(3000, () => {
+    console.log('port 3000 up and running')
+  })
+const socket = require('socket.io');
+const io = socket(server);
 const cors = require('cors')
 
-
-const app = express()
 app.use(express.json())
 app.use(cors())
 
+
+io.on('connection', socket => { 
+    console.log('connected with', socket.id)
+    // functions socket.on etc
+    socket.on('addedLetter', letter => {
+        console.log(letter)
+        io.sockets.emit('userAddedLetter', letter)
+        console.log('backend received and emitted')
+    })
+ });
 
 
 app.get('/start', (req,res) => {
@@ -24,11 +38,8 @@ app.get('/word', (req,res) => {
     // let amountOfLetters = chosenWord.length;
     // make an array in which to fetch the answers from
     let word = chosenWord.split('');
-    // console.log(word);
+   
     // send array
     res.send(word);
 })
 
-app.listen(3000, () => {
-    console.log('port 3000 up and running')
-  })
