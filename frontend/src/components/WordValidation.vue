@@ -287,13 +287,14 @@
       },
 
     timer(){
-      let timeSec = 11
+      let timeSec = 60
       let timeSecLeft = timeSec
       for (let i = 0; i < timeSec; i++) {
         this.timerId = setTimeout(() => {
           timeSecLeft--
           this.timeLeft = timeSecLeft
-          //when time is up, pumpkin wins; might be adjusted when we fix turn taking between players
+          //when time is up and winner has not been declared yet, pumpkin wins; 
+          //might be adjusted when we fix turn taking between players
           if(this.timeLeft === 0 && this.winner=== "") {this.gameOver()}
         }, 1000*(i+1))
 }
@@ -302,6 +303,7 @@
       //could not clear the interval though to stop the loop 
       //and could not make so that first player appears directly when screen is loaded
       //so it is not used in the template right now
+
       // findCurrentPlayer() {
       // this.players.forEach((p, index) => {
       //     this.intervalId = setInterval(()=>{
