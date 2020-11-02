@@ -226,6 +226,7 @@
           this.validLetters.push(letter.name)
 
           if (this.validLetters.length === this.uniqueLetters.length) {
+          //Current player's id sent as parameter; Hardcoded to first player now 
             this.gameOver(this.players[0].id)
           }
 
@@ -233,6 +234,7 @@
           this.invalidLetters.push(letter.name)
           this.counter++
           if (this.counter === 8) {
+          //Current player's id sent as parameter; Hardcoded to first player now             
             this.gameOver(this.players[0].id)
           }
         }
@@ -287,6 +289,7 @@
       },
 
     timer(){
+      //One minute time limit for the whole game; after that the pumpkin wins
       let timeSec = 60
       let timeSecLeft = timeSec
       for (let i = 0; i < timeSec; i++) {
