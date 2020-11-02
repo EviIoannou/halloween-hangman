@@ -9,14 +9,16 @@
       </p>
     </div>
     <div class="home__cont">
+      <h2>Välj genre</h2>
       <select
         name="gameGenre"
         v-model="selected"
         :required="true"
+        class="home__selectOption"
         @change="selectGenre($event)"
       >
         <option :selected="true">Välj genre</option>
-        <option v-for="option in pickGenre" :value="option">
+        <option v-for="option in pickGenre" :value="option" :key="option">
           {{ option }}</option
         >
       </select>
@@ -61,57 +63,57 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid'
 
 export default {
-  name: "Home",
+  name: 'Home',
 
   data() {
     return {
       players: [
-        { name: "", id: uuidv4() },
-        { name: "", id: uuidv4() },
+        { name: '', id: uuidv4() },
+        { name: '', id: uuidv4() }
       ],
-      pickGenre: ["halloween", "sport", "tv"],
-      selected: "Välj genre",
-      pick: "",
-    };
+      pickGenre: ['halloween', 'sport', 'tv'],
+      selected: 'Välj genre',
+      pick: ''
+    }
   },
   methods: {
     selectGenre(e) {
-      const pick = e.target.value;
+      const pick = e.target.value
 
-      if (pick === "halloween") {
-        return (this.pick = pick);
-      } else if (pick === "sport") {
-        return (this.pick = pick);
-      } else if (pick === "tv") {
-        return (this.pick = pick);
+      if (pick === 'halloween') {
+        return (this.pick = pick)
+      } else if (pick === 'sport') {
+        return (this.pick = pick)
+      } else if (pick === 'tv') {
+        return (this.pick = pick)
       }
     },
     startGame(players) {
-      document.getElementById("playerone").value = "";
-      document.getElementById("playertwo").value = "";
-      const pickedWord = this.pick;
-      console.log(pickedWord);
+      document.getElementById('playerone').value = ''
+      document.getElementById('playertwo').value = ''
+      const pickedWord = this.pick
+      console.log(pickedWord)
       fetch(`http://localhost:3000/word/${pickedWord}`)
         .then((res) => res.json())
-        .then((data) => data);
+        .then((data) => data)
 
-      localStorage.setItem("player-storage", JSON.stringify(players));
+      localStorage.setItem('player-storage', JSON.stringify(players))
       this.$router.push({
-        path: "game",
-        query: { players: players },
-      });
-    },
-  },
-};
+        path: 'game',
+        query: { players: players, pickedGenre: this.pick }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
 .home {
   height: 100%;
-  background-image: url("../assets/halloween.png");
+  background-image: url('../assets/halloween.png');
   background-repeat: no-repeat;
   background-position: center;
   display: flex;
@@ -180,5 +182,11 @@ export default {
   font-weight: bold;
   box-shadow: 4px 4px 4px rgba(82, 36, 31, 0.5);
   border-radius: 4px;
+}
+.home__selectOption {
+  padding: 0.5rem;
+  background-color: black;
+  color: orange;
+  margin: 1rem;
 }
 </style>

@@ -25,14 +25,21 @@
               Fel bokstav
             </h1>
             <div class="game__wrongwords">
+              {{ letters.length }} / 8
               <p v-for="(letter, index) in letters" :key="letter[index]">
                 {{ letter }}
               </p>
             </div>
           </div>
         </div>
+        <div style="text-align: center;">
+          du har valt genre
+          <span style="font-size: 2rem; display: block; font-weight: bold;">{{
+            pickedGenre
+          }}</span>
+        </div>
         <div class="game__hangman">
-          <Hangman :letters="letters" :winner="winner"/>
+          <Hangman :letters="letters" :winner="winner" />
         </div>
 
         <div class="game__letters">
@@ -48,44 +55,44 @@
 </template>
 
 <script>
-import Hangman from "../components/Hangman";
-import WordValidation from "@/components/WordValidation.vue";
+import Hangman from '../components/Hangman'
+import WordValidation from '@/components/WordValidation.vue'
 export default {
   components: {
     Hangman,
-    WordValidation,
+    WordValidation
   },
   data() {
     return {
       letters: [],
       players: this.$route.query.players,
-      winner:""
-    };
+      winner: '',
+      pickedGenre: this.$route.query.pickedGenre
+    }
   },
   methods: {
     onInvalidLetter(letters) {
-      this.letters = letters;
+      this.letters = letters
     },
-    onWinner(winner){
+    onWinner(winner) {
       this.winner = winner
     }
   },
   mounted() {
-    this.players = JSON.parse(localStorage.getItem("player-storage") || "[]");
+    this.players = JSON.parse(localStorage.getItem('player-storage') || '[]')
   },
   watch: {
     players(newNames) {
-      console.log(newNames);
-      localStorage.players = newNames;
-    },
-  },
-};
+      localStorage.players = newNames
+    }
+  }
+}
 </script>
 
 <style scoped>
 .game {
   height: 100%;
-  background-image: url("../assets/halloween.png");
+  background-image: url('../assets/halloween.png');
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
@@ -125,7 +132,6 @@ export default {
 .game__right {
   flex: 0.5;
   text-align: center;
-
 }
 .game__wrongwords {
   display: flex;
