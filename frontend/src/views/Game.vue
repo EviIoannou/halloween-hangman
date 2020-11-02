@@ -50,6 +50,9 @@
 <script>
 import Hangman from "../components/Hangman";
 import WordValidation from "@/components/WordValidation.vue";
+import io from 'socket.io-client';
+let socket = io('http://localhost:3000');
+
 export default {
   components: {
     Hangman,
@@ -79,6 +82,11 @@ export default {
       localStorage.players = newNames;
     },
   },
+  created: function() {
+      socket.on('connect', () => {
+          console.log('Connected')
+      });
+  }
 };
 </script>
 
