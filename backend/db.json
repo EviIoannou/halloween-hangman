@@ -1,0 +1,423 @@
+{
+  "games": [
+    {
+      "game": {
+        "id": 754,
+        "players": {
+          "player1": {
+            "name": "Evi",
+            "id": "388986a0-0fc8-423c-9a7f-b302b789f826"
+          },
+          "player2": null
+        },
+        "word": [
+          "k",
+          "a",
+          "t",
+          "t"
+        ],
+        "room": "388986a0-0fc8-423c-9a7f-b302b789f826",
+        "gameOver": false
+      }
+    },
+    {
+      "game": {
+        "id": 895,
+        "players": {
+          "player1": {
+            "name": "Evi",
+            "id": "a68a120c-c7b5-4ae0-8a68-e458bffef2d7"
+          },
+          "player2": null
+        },
+        "word": [
+          "k",
+          "a",
+          "t",
+          "t"
+        ],
+        "room": "a68a120c-c7b5-4ae0-8a68-e458bffef2d7",
+        "gameOver": false
+      }
+    },
+    {
+      "game": {
+        "id": 674,
+        "players": {
+          "player1": {
+            "name": "Evi",
+            "id": "d71ac060-caeb-48e3-90f1-6da3f66d7bc7"
+          },
+          "player2": null
+        },
+        "word": [
+          "k",
+          "a",
+          "t",
+          "t"
+        ],
+        "room": "d71ac060-caeb-48e3-90f1-6da3f66d7bc7",
+        "gameOver": false
+      }
+    },
+    {
+      "game": {
+        "id": 49,
+        "players": {
+          "player1": {
+            "name": "Evi",
+            "id": "523ebe66-f90e-4260-bd87-bef8c41dbeca"
+          },
+          "player2": null
+        },
+        "word": [
+          "k",
+          "a",
+          "t",
+          "t"
+        ],
+        "room": "523ebe66-f90e-4260-bd87-bef8c41dbeca",
+        "gameOver": false
+      }
+    },
+    {
+      "game": {
+        "id": 865,
+        "players": {
+          "player1": {
+            "name": "Evi",
+            "id": "5d584e3b-6389-4f26-bad0-815322f73520"
+          },
+          "player2": null
+        },
+        "word": [
+          "k",
+          "a",
+          "t",
+          "t"
+        ],
+        "room": "5d584e3b-6389-4f26-bad0-815322f73520",
+        "gameOver": false
+      }
+    },
+    {
+      "game": {
+        "id": 815,
+        "players": {
+          "player1": {
+            "name": "Evi",
+            "id": "48de259e-bfeb-4794-8be5-1ad5b6d273a5"
+          },
+          "player2": null
+        },
+        "word": [
+          "k",
+          "a",
+          "t",
+          "t"
+        ],
+        "room": "48de259e-bfeb-4794-8be5-1ad5b6d273a5",
+        "gameOver": false
+      }
+    },
+    {
+      "game": {
+        "id": 437,
+        "players": {
+          "player1": "Evi",
+          "player2": null
+        },
+        "word": [
+          "k",
+          "a",
+          "t",
+          "t"
+        ],
+        "gameOver": false
+      }
+    },
+    {
+      "game": {
+        "id": 705,
+        "players": {
+          "player1": "Evi",
+          "player2": null
+        },
+        "word": [
+          "k",
+          "a",
+          "t",
+          "t"
+        ],
+        "gameOver": false
+      }
+    },
+    {
+      "game": {
+        "id": 691,
+        "players": {
+          "player1": "Evi",
+          "player2": null
+        },
+        "word": [
+          "b",
+          "a",
+          "n",
+          "a",
+          "n"
+        ],
+        "room": "50gywipjotk6ZnQkAAAA",
+        "gameOver": false
+      }
+    },
+    {
+      "game": {
+        "id": 454,
+        "players": {
+          "player1": "Evi",
+          "player2": null
+        },
+        "word": [
+          "k",
+          "a",
+          "t",
+          "t"
+        ],
+        "room": "q5wfJbUNOdSngCt4AAAA",
+        "gameOver": false
+      }
+    },
+    {
+      "game": {
+        "id": 268,
+        "players": {
+          "player1": "Elli",
+          "player2": null
+        },
+        "word": [
+          "f",
+          "o",
+          "t",
+          "b",
+          "o",
+          "l",
+          "l"
+        ],
+        "room": "O1Vvme5Sh4LHdTxCAAAA",
+        "gameOver": false
+      }
+    }
+  ],
+  "players": [
+    {
+      "player": {
+        "name": "Evi",
+        "id": "388986a0-0fc8-423c-9a7f-b302b789f826",
+        "turn": true
+      }
+    },
+    {
+      "player": {
+        "name": "Evi",
+        "id": "a68a120c-c7b5-4ae0-8a68-e458bffef2d7",
+        "turn": true
+      }
+    },
+    {
+      "player": {
+        "name": "Evi",
+        "id": "d71ac060-caeb-48e3-90f1-6da3f66d7bc7",
+        "turn": true
+      }
+    },
+    {
+      "player": {
+        "name": "Evi",
+        "id": "523ebe66-f90e-4260-bd87-bef8c41dbeca",
+        "turn": true
+      }
+    },
+    {
+      "player": {
+        "name": "Evi",
+        "id": "5d584e3b-6389-4f26-bad0-815322f73520",
+        "turn": true
+      }
+    },
+    {
+      "player": {
+        "name": "Evi",
+        "id": "48de259e-bfeb-4794-8be5-1ad5b6d273a5",
+        "turn": true
+      }
+    },
+    {
+      "player": {
+        "turn": true
+      }
+    },
+    {
+      "player": {
+        "turn": true
+      }
+    },
+    {
+      "player": {
+        "name": "Evi",
+        "id": "50gywipjotk6ZnQkAAAA",
+        "turn": true
+      }
+    },
+    {
+      "player": {
+        "name": "Evi",
+        "id": "q5wfJbUNOdSngCt4AAAA",
+        "turn": true
+      }
+    },
+    {
+      "player": {
+        "name": "Elli",
+        "id": "O1Vvme5Sh4LHdTxCAAAA",
+        "turn": true
+      }
+    }
+  ],
+  "words": [
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "id": 1,
+      "letters": [
+        "K",
+        "A",
+        "T",
+        "T"
+      ]
+    }
+  ]
+}

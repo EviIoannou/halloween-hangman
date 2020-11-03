@@ -54,18 +54,18 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
-let socket = io('http://localhost:3000');
+// import io from 'socket.io-client';
+// let socket = io('http://localhost:3000');
 
   export default {
     props: ["players"],
     created() {
-        socket.on('connect', () => {
-          console.log('Connected')
-      }); 
-        socket.on('userAddedLetter', (e) => {
-            console.log(e)
-        }) 
+      //   socket.on('connect', () => {
+      //     console.log('Connected')
+      // }); 
+      //   socket.on('userAddedLetter', (e) => {
+      //       console.log(e)
+      //   }) 
 
       fetch("http://localhost:3000/word")
         .then((response) => response.json())
@@ -223,8 +223,8 @@ let socket = io('http://localhost:3000');
       addLetter(letter) {
         //When clicking on a letter, "push" to validLetters if it's included in the word,
         //otherwise push to invalidLetters
-        socket.emit('addedLetter', letter)
-        console.log('frontend emitted') 
+        // socket.emit('addedLetter', letter)
+        // console.log('frontend emitted') 
         this.testedLetters.push(letter.name)
         if (this.word.some(l => l.name === letter.name)) {
           this.validLetters.push(letter.name)
@@ -298,9 +298,9 @@ let socket = io('http://localhost:3000');
         this.$emit('winner', this.winner)
       }
     },
-    props: {
-      players: Array
-    }
+    // props: {
+    //   players: Array
+    // }
   }
 </script>
 

@@ -41,9 +41,16 @@
       <button
         class="home__button"
         :disabled="!players[0].name"
-        @click="startGame(players)"
+        @click="startGame(players[0])"
       >
         Start game
+      </button>
+      <button
+        class="home__button"
+        :disabled="!players[0].name"
+        @click="joinGame(players[1])"
+      >
+        Join game
       </button>
     </div>
 
@@ -53,6 +60,8 @@
 <script>
 
 import { v4 as uuidv4 } from 'uuid'
+import io from 'socket.io-client';
+let socket = io('http://localhost:3000');
 
 export default {
   name: 'Home',
@@ -66,14 +75,18 @@ export default {
     }
   },
   methods: {
-    startGame(players) {
+    async startGame(player) {
+      console.log(player.id)
       document.getElementById('playerone').value = ''
       document.getElementById('playertwo').value = ''
-      localStorage.setItem('player-storage', JSON.stringify(players))
-      this.$router.push({
+      await socket.emit('start-game', player.name)
+      await console.log('sendning player' + player.name)
+      await localStorage.setItem('player-storage', JSON.stringify(player))
+      await this.$router.push({
         path: 'game',
-        query: { players: players }
+        query: { players: player }
       })
+      
     }
   }
 }

@@ -58,6 +58,16 @@ export default {
     Hangman,
     WordValidation,
   },
+//  async created(){
+//     await socket.on('connect', () => {
+//         console.log('Connected')
+//     }); 
+//     let gameId = 895;
+//     await socket.emit('get-game-data', gameId)
+//     await socket.on('found-game', data => {
+//       console.log(data) 
+//       }); 
+  // },
   data() {
     return {
       letters: [],
@@ -82,11 +92,11 @@ export default {
       localStorage.players = newNames;
     },
   },
-  created: function() {
-      socket.on('connect', () => {
-          console.log('Connected')
-      });
-  }
+  // created: function() {
+  //     socket.on('connect', () => {
+  //         console.log('Connected')
+  //     });
+  // }
 };
 </script>
 
