@@ -78,8 +78,7 @@ export default {
   },
   mounted() {
     console.log(this.gameId)
-    // save gameId in localstorage as well
-    // this.gameId = JSON.parse(localStorage.getItem("game-storage") || "");
+
     socket.on('connect', () => {
         console.log('Connected')
         socket.emit('get-game-data', this.gameId *1)

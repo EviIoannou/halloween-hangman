@@ -51,7 +51,6 @@
         await socket.emit('start-game', player)
         await console.log('sendning player' + player)
         await socket.on('created-game', gameId => {
-          localStorage.setItem('game-storage', JSON.stringify(gameId))
           this.$router.push({
             path: 'game',
             query: {
