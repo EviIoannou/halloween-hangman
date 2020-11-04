@@ -20,6 +20,7 @@ const adapter = new FileSync('db.json')
 // use with async await when write/ read with function
 const db = low(adapter)
 
+db.get('players').remove().value()
 // Set some defaults
 db.defaults({
         games: [],
@@ -27,49 +28,26 @@ db.defaults({
         words: []
     })
     .write()
-
-
 // 
 
 
-// Add a word ? ex. Skapa en func som itererar över alla ord i ordlistan och skapar en lista i databasen? 
-db.get('words')
-    .push({
-        id: 1,
-        letters: ['K', 'A', 'T', 'T']
-    })
-    .write()
+// // Add a word ? ex. Skapa en func som itererar över alla ord i ordlistan och skapar en lista i databasen? 
+// db.get('words')
+//     .push({
+//         id: 1,
+//         letters: ['K', 'A', 'T', 'T']
+//     })
+//     .write()
 
-// Add a game
-// let game = {
-//     id: null,
-//     players: {
-//         player1: null,
-//         player2: null
-//     },
-//     word: null,
-//     room: null,
-//     gameOver: false
-//     // kan joina spel om det inte är gameOver?
-// }
-
-// // Add a player
-// let player = {
-//     name: null,
-//     id: null,
-//     turn: false,
-//     // room: room,
-//     // game: game.id
-// }
 
 let dictionary = ["katt", "banan", "fotboll"];
 // choose word 
-
 
 io.on('connection', socket => {
     console.log('connected with', socket.id)
     // add to function create game
     socket.on('start-game', p => {
+        // choose word 
         let chosenWord = dictionary[Math.floor(Math.random() * dictionary.length)];
         let wordLetters = chosenWord.split('');
         
@@ -78,7 +56,7 @@ io.on('connection', socket => {
             id: socket.id,
             turn: true
         }
-        // console.log("player backend " + player.id)
+        console.log("player backend " + player.id)
         let game = {
             id: Math.floor(Math.random() * 1000),
             players: {
@@ -92,22 +70,39 @@ io.on('connection', socket => {
 
         console.log(`${game} + ${player}`)
         db.get('games')
-            .push({
+            .push(
                 game
-            })
+            )
             .write()
 
         //Add a player ? add to func   
         db.get('players')
-            .push({
+            .push(
                 player
-            })
+            )
             .write()
+
+        socket.emit('created-game', game.id)
     })
     socket.on('addedLetter', letter => {
         console.log(letter)
         io.sockets.emit('userAddedLetter', letter)
         console.log('backend received and emitted')
+    })
+
+    socket.on('get-game-data', gameId => {
+        console.log(gameId)
+        let data = db.get('games').find({ id : gameId}).value()
+        console.log(data)
+        io.sockets.emit('found-game', data) 
+    })
+
+    socket.on('get-players', playerIds => {
+        let playerData = [];
+        for (let value of Object.values(playerIds)) {
+            playerData.push(db.get('players').find({ id: value}).value())
+        };
+        socket.emit('found-players', playerData)
     })
 })
 app.get('/word', (req, res) => {
