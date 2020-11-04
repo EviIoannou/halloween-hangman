@@ -7,6 +7,7 @@
       <main class="game__main">
         <div class="game__main__header">
           <div class="game__left">
+            <!-- Get player data via database -->
             <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
               Spelarens namn
             </h1>
@@ -58,20 +59,12 @@ export default {
     Hangman,
     WordValidation,
   },
-//  async created(){
-//     await socket.on('connect', () => {
-//         console.log('Connected')
-//     }); 
-//     let gameId = 895;
-//     await socket.emit('get-game-data', gameId)
-//     await socket.on('found-game', data => {
-//       console.log(data) 
-//       }); 
-  // },
+
   data() {
     return {
       letters: [],
-      players: this.$route.query.players,
+      gameId: this.$route.query.game,
+      players: [],
       winner:""
     };
   },
@@ -84,19 +77,35 @@ export default {
     }
   },
   mounted() {
-    this.players = JSON.parse(localStorage.getItem("player-storage") || "[]");
+    console.log(this.gameId)
+    // save gameId in localstorage as well
+    this.gameId = JSON.parse(localStorage.getItem("game-storage") || "");
+    socket.on('connect', () => {
+        console.log('Connected')
+        socket.emit('get-game-data', this.gameId)
+        socket.on('found-game', data => {
+          let playerIds = data.players
+          console.log(playerIds)
+          socket.emit('get-players', playerIds)
+          socket.on('found-players', playerData => {
+            playerData.forEach(p => {
+              if (p) {this.players.push(p)} else {return null}
+              console.log(this.players)
+            });
+          })
+      //find the game to join and do something with that data
+      //e.g. get word for that game, player data etc.
+      console.log(data) 
+      }); 
+    }); 
   },
-  watch: {
-    players(newNames) {
-      console.log(newNames);
-      localStorage.players = newNames;
-    },
-  },
-  // created: function() {
-  //     socket.on('connect', () => {
-  //         console.log('Connected')
-  //     });
-  // }
+
+  // watch: {
+  //   players(newNames) {
+  //     console.log(newNames);
+  //     localStorage.players = newNames;
+  //   },
+  // },
 };
 </script>
 
