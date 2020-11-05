@@ -1,5 +1,5 @@
 <template>
-  <div v-if="word" id="tested-letters">
+  <div v-if="word" @ id="tested-letters">
     <!-- Show secret word when game is up -->
     <!-- <h2 v-if="winner !==''">{{ completeWord }}</h2> -->
     <div id="missing-letters">
@@ -54,43 +54,9 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
-let socket = io('http://localhost:3000');
 
   export default {
-    props: ["players"],
-    created() {
-        socket.on('connect', () => {
-          console.log('Connected')
-      }); 
-        socket.on('userAddedLetter', (e) => {
-            console.log(e)
-        }) 
 
-      fetch("http://localhost:3000/word")
-        .then((response) => response.json())
-        .then((result) => {
-          //Create an array to fill with word's letters
-          let letterObjects = [];
-
-          //For each letter of the word, create an object with name (letter) and unique, random id
-          //to use as key in template
-          result.map((l) =>
-            letterObjects.push({
-              name: l,
-              id: Math.floor(Math.random() * 10000),
-            })
-          )
-          this.word = letterObjects
-
-          // complete word
-          this.lettersInWord = this.word.map((w) => w.name)
-          this.completeWord = this.lettersInWord.join('')
-
-          //Get an array with all unique characters in word
-          this.uniqueLetters = [...new Set(this.word.map(l => l.name))];
-        })
-    },
     data() {
       return {
         letters: [{
@@ -99,11 +65,15 @@ let socket = io('http://localhost:3000');
           },
           {
             name: 'b',
-            id: 3
+            id: 2
           },
           {
             name: "c",
-            id: 4,
+            id: 3,
+          },
+          {
+           name: "d",
+            id: 4
           },
           {
             name: "e",
@@ -223,7 +193,7 @@ let socket = io('http://localhost:3000');
       addLetter(letter) {
         //When clicking on a letter, "push" to validLetters if it's included in the word,
         //otherwise push to invalidLetters
-        socket.emit('addedLetter', letter)
+        this.socket.emit('addedLetter', letter)
         console.log('frontend emitted') 
         this.testedLetters.push(letter.name)
         if (this.word.some(l => l.name === letter.name)) {
@@ -298,8 +268,45 @@ let socket = io('http://localhost:3000');
         this.$emit('winner', this.winner)
       }
     },
-    props: {
-      players: Array
+    props: ['socket', 'players']
+    // props: {
+    //     // word: Array - behövs?,
+    //     socket: WebSocket,- stämmer inte riktigt?
+    //     players: Array
+    // }
+    ,
+    created() {
+        fetch("http://localhost:3000/word")
+        .then((response) => response.json())
+        .then((result) => {
+          //Create an array to fill with word's letters
+          let letterObjects = [];
+
+          //For each letter of the word, create an object with name (letter) and unique, random id
+          //to use as key in template
+          result.map((l) =>
+            letterObjects.push({
+              name: l,
+              id: Math.floor(Math.random() * 10000),
+            })
+          )
+          this.word = letterObjects
+          // complete word
+          this.lettersInWord = this.word.map((w) => w.name)
+          this.completeWord = this.lettersInWord.join('')
+
+          //Get an array with all unique characters in word
+          this.uniqueLetters = [...new Set(this.word.map(l => l.name))];
+        }),
+        this.socket.on('userAddedLetter', (e) => {
+            console.log(e)
+        }) 
+        // socket.on('play', () => {
+        //     // fetch word from backend  
+        //     // borde hämtas från gameobjectet till spelrummet?
+        //  funkar ej just nu. 
+        //     getWord()
+        // }) 
     }
   }
 </script>

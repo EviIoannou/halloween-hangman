@@ -56,7 +56,6 @@ import { v4 as uuidv4 } from 'uuid'
 
 export default {
   name: 'Home',
-
   data() {
     return {
       players: [
@@ -75,7 +74,8 @@ export default {
         query: { players: players }
       })
     }
-  }
+  },
+    props:['socket']
 }
 </script>
 

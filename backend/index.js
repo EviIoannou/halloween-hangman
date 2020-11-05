@@ -18,6 +18,9 @@ io.on('connection', socket => {
         io.sockets.emit('userAddedLetter', letter)
         console.log('backend received and emitted')
     })
+    socket.on('play', () => {
+        io.sockets.emit('gamestarted')
+    })
  });
 
 //  database connection
@@ -28,43 +31,22 @@ const adapter = new FileSync('db.json')
 // use with async await when write/ read with function
 const db = low(adapter)
 
+// Functions to connect with db? put in socket.on?
 // Set some defaults
-db.defaults({ games: [], players: [], words: [] })
-  .write()
- 
-// Add a game
-let game = {
-    id: id,
-    players: {
-        player1: player1,
-        player2: null
-    },
-    word: word,
-    room: room,
-    gameOver: false
-    // kan joina spel om det inte är gameOver?
-}
-// add to function create game
-// 
-db.get('games')
-  .push({ game })
-  .write()
+//     db.defaults({ games: [], players: [], words: [] })
+//     .write()
 
-let player = {
-    id: id,
-    turn: false,
-    room: room,
-    game: game.id
-} 
-// Add a player ? add to func   
-db.get('players')
-.push({ player })
-.write()
+//     db.get('games')
+//     .push({ game })
+//     .write()
+   
+//     db.get('players')
+//     .push({ player })
+//     .write()
 
-// Add a word ? ex. Skapa en func som itererar över alla ord i ordlistan och skapar en lista i databasen? 
-db.get('words')
-.push({ id: 1, letters: ['K', 'A', 'T', 'T'] })
-.write()
+//  db.get('words')
+//     .push({ id: 1, letters: ['K', 'A', 'T', 'T'] })
+//     .write()
 
 app.get('/word', (req,res) => {
     let dictionary = ["katt", "banan", "fotboll"];
