@@ -7,6 +7,7 @@
       <main class="game__main">
         <div class="game__main__header">
           <div class="game__left">
+            <!-- Get player data via database -->
             <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
               Spelarens namn
             </h1>
@@ -57,30 +58,45 @@ export default {
     Hangman,
     WordValidation,
   },
-    data() {
-        return {
-        letters: [],
-        players: this.$route.query.players,
-        winner:""
-        };
+
+  data() {
+    return {
+      letters: [],
+      gameId: this.$route.query.game,
+      players: [],
+      winner:""
+    };
+  },
+  methods: {
+    onInvalidLetter(letters) {
+      this.letters = letters;
     },
-    methods: {
-        onInvalidLetter(letters) {
-        this.letters = letters;
-        },
-        onWinner(winner){
-        this.winner = winner
-        }
-    },
-    mounted() {
-        this.players = JSON.parse(localStorage.getItem("player-storage") || "[]");
-        },
-    watch: {
-        players(newNames) {
-        console.log(newNames);
-        localStorage.players = newNames;
-        },
-    },
+    onWinner(winner){
+      this.winner = winner
+    }
+  },
+  mounted() {
+    console.log(this.gameId)
+
+    this.socket.on('connect', () => {
+        console.log('Connected')
+        this.socket.emit('get-game-data', this.gameId *1)
+        this.socket.on('found-game', data => {
+          let playerIds = data.players
+          console.log(playerIds)
+          this.socket.emit('get-players', playerIds)
+          this.socket.on('found-players', playerData => {
+            playerData.forEach(p => {
+              if (p) {this.players.push(p)} else {return null}
+              console.log(this.players)
+            });
+          })
+      //find the game to join and do something with that data
+      //e.g. get word for that game, player data etc.
+      console.log(data) 
+      }); 
+    }); 
+  },
     props:['socket']
 };
 </script>
