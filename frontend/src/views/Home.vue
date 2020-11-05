@@ -4,8 +4,8 @@
     <div class="home__title">
       <h1>😈 Halloween Hängagubbe 😈</h1>
       <p>
-        Välkommen till Halloween Hängagubbe. Detta är en spökig upplevelse och
-        ta dig an och möt din vän.
+        Välkommen till Halloween Hangman 2.0. Detta är en spökig upplevelse att
+        ta dig an själv eller utmana en vän.
       </p>
     </div>
     <div class="home__cont">
