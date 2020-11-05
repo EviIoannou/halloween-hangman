@@ -14,12 +14,28 @@
       ],
       "room": "ot4l7ClFZuR2iq-bAAAA",
       "gameOver": false
+    },
+    {
+      "id": 393,
+      "players": {
+        "player1": "4Y249n3GDPVB33jJAAAA",
+        "player2": null
+      },
+      "word": [
+        "b",
+        "a",
+        "n",
+        "a",
+        "n"
+      ],
+      "room": "4Y249n3GDPVB33jJAAAA",
+      "gameOver": false
     }
   ],
   "players": [
     {
-      "name": "Panos",
-      "id": "ot4l7ClFZuR2iq-bAAAA",
+      "name": "Elli",
+      "id": "4Y249n3GDPVB33jJAAAA",
       "turn": true
     }
   ],
