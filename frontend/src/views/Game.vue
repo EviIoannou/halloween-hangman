@@ -40,6 +40,7 @@
             :players="players"
             @invalidLetters="onInvalidLetter"
             @winner="onWinner"
+            :socket="socket"
           />
         </div>
       </main>
@@ -50,43 +51,37 @@
 <script>
 import Hangman from "../components/Hangman";
 import WordValidation from "@/components/WordValidation.vue";
-import io from 'socket.io-client';
-let socket = io('http://localhost:3000');
 
 export default {
   components: {
     Hangman,
     WordValidation,
   },
-  data() {
-    return {
-      letters: [],
-      players: this.$route.query.players,
-      winner:""
-    };
-  },
-  methods: {
-    onInvalidLetter(letters) {
-      this.letters = letters;
+    data() {
+        return {
+        letters: [],
+        players: this.$route.query.players,
+        winner:""
+        };
     },
-    onWinner(winner){
-      this.winner = winner
-    }
-  },
-  mounted() {
-    this.players = JSON.parse(localStorage.getItem("player-storage") || "[]");
-  },
-  watch: {
-    players(newNames) {
-      console.log(newNames);
-      localStorage.players = newNames;
+    methods: {
+        onInvalidLetter(letters) {
+        this.letters = letters;
+        },
+        onWinner(winner){
+        this.winner = winner
+        }
     },
-  },
-  created: function() {
-      socket.on('connect', () => {
-          console.log('Connected')
-      });
-  }
+    mounted() {
+        this.players = JSON.parse(localStorage.getItem("player-storage") || "[]");
+        },
+    watch: {
+        players(newNames) {
+        console.log(newNames);
+        localStorage.players = newNames;
+        },
+    },
+    props:['socket']
 };
 </script>
 
