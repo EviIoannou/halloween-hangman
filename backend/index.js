@@ -10,8 +10,6 @@ const cors = require('cors')
 app.use(express.json())
 app.use(cors())
 
-
-
 //  database connection
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')

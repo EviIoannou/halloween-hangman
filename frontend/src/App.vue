@@ -1,9 +1,26 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view :socket="ws"></router-view>
   </div>
 </template>
+<script>
+import io from 'socket.io-client';
+    export default{
+        data () {
+            return {
+            ws: null
+            }
+        },
+        created () {
+            this.ws = io('http://localhost:3000')
+            this.ws.on('connect', () => {
+            console.log('Connected')
+            })
+        },
+        name: "App" 
+    }
 
+</script>
 <style>
 * {
   margin: 0;

@@ -41,6 +41,7 @@
             :players="players"
             @invalidLetters="onInvalidLetter"
             @winner="onWinner"
+            :socket="socket"
           />
         </div>
       </main>
@@ -51,8 +52,6 @@
 <script>
 import Hangman from "../components/Hangman";
 import WordValidation from "@/components/WordValidation.vue";
-import io from 'socket.io-client';
-let socket = io('http://localhost:3000');
 
 export default {
   components: {
@@ -79,14 +78,14 @@ export default {
   mounted() {
     console.log(this.gameId)
 
-    socket.on('connect', () => {
+    this.socket.on('connect', () => {
         console.log('Connected')
-        socket.emit('get-game-data', this.gameId *1)
-        socket.on('found-game', data => {
+        this.socket.emit('get-game-data', this.gameId *1)
+        this.socket.on('found-game', data => {
           let playerIds = data.players
           console.log(playerIds)
-          socket.emit('get-players', playerIds)
-          socket.on('found-players', playerData => {
+          this.socket.emit('get-players', playerIds)
+          this.socket.on('found-players', playerData => {
             playerData.forEach(p => {
               if (p) {this.players.push(p)} else {return null}
               console.log(this.players)
@@ -98,13 +97,7 @@ export default {
       }); 
     }); 
   },
-
-  // watch: {
-  //   players(newNames) {
-  //     console.log(newNames);
-  //     localStorage.players = newNames;
-  //   },
-  // },
+    props:['socket']
 };
 </script>
 

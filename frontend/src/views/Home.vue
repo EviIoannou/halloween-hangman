@@ -32,10 +32,6 @@
 </template>
 
 <script>
-  // import { v4 as uuidv4 } from 'uuid'
-  import io from 'socket.io-client';
-  let socket = io('http://localhost:3000');
-
   export default {
     name: 'Home',
 
@@ -48,9 +44,9 @@
       async startGame(player) {
         document.getElementById('playerArea').value = ''
         // document.getElementById('playertwo').value = ''
-        await socket.emit('start-game', player)
+        await this.socket.emit('start-game', player)
         await console.log('sendning player' + player)
-        await socket.on('created-game', gameId => {
+        await this.socket.on('created-game', gameId => {
           this.$router.push({
             path: 'game',
             query: {
@@ -60,8 +56,10 @@
         })
 
       }
-    }
+    },
+    props:['socket']
   }
+
 </script>
 
 <style scoped>
