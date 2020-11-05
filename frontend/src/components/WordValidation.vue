@@ -56,6 +56,7 @@
 <script>
 
   export default {
+    props: ["players"],
 
     data() {
       return {
@@ -268,7 +269,7 @@
         this.$emit('winner', this.winner)
       }
     },
-    props: ['socket', 'players']
+    props: ['socket']
     // props: {
     //     // word: Array - behövs?,
     //     socket: WebSocket,- stämmer inte riktigt?
