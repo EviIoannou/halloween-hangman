@@ -56,7 +56,6 @@
 <script>
 
   export default {
-    props: ["players"],
 
     data() {
       return {
@@ -198,7 +197,7 @@
         console.log('frontend emitted') 
         this.testedLetters.push(letter.name)
         if (this.word.some(l => l.name === letter.name)) {
-          this.validLetters.push(letter.name)
+            this.validLetters.push(letter.name)
 
           if (this.validLetters.length === this.uniqueLetters.length) {
             this.gameOver(this.players[0].id)
@@ -264,25 +263,30 @@
     watch: {
       invalidLetters() {
         this.$emit('invalidLetters', this.invalidLetters)
+        this.socket.emit('invalidLetter', this.invalidLetters)
+        this.socket.on('letterInvalid', (e) => {
+            console.log(e)
+            this.$emit('invalidLetters', e)
+        }) 
       },
       winner(){
         this.$emit('winner', this.winner)
+        this.socket.emit('socketWinner', this.winner)
+        this.socket.on('winnerSocket', (e) => {
+            console.log(e) 
+            this.$emit('winner', e)
+        }) 
       }
+        
     },
-    props: ['socket']
-    // props: {
-    //     // word: Array - behövs?,
-    //     socket: WebSocket,- stämmer inte riktigt?
-    //     players: Array
-    // }
-    ,
+    props: ['socket', 'players'],
+    // , 'word'
     created() {
-        fetch("http://localhost:3000/word")
+         fetch("http://localhost:3000/word")
         .then((response) => response.json())
         .then((result) => {
           //Create an array to fill with word's letters
           let letterObjects = [];
-
           //For each letter of the word, create an object with name (letter) and unique, random id
           //to use as key in template
           result.map((l) =>
@@ -295,21 +299,27 @@
           // complete word
           this.lettersInWord = this.word.map((w) => w.name)
           this.completeWord = this.lettersInWord.join('')
-
           //Get an array with all unique characters in word
           this.uniqueLetters = [...new Set(this.word.map(l => l.name))];
         }),
+
+
+        // //   //Create an array to fill with word's letters
+        // let letterObjects = [];
+        // this.word.map((l) => {
+        //     letterObjects.push({
+        //         name: l,
+        //         id: Math.floor(Math.random() * 10000)
+        //     })
+        // }),
+        // this.socket.emit('word', this.word),
         this.socket.on('userAddedLetter', (e) => {
             console.log(e)
-        }) 
-        // socket.on('play', () => {
-        //     // fetch word from backend  
-        //     // borde hämtas från gameobjectet till spelrummet?
-        //  funkar ej just nu. 
-        //     getWord()
-        // }) 
-    }
-  }
+        })
+        //Get an array with all unique characters in word
+        // this.uniqueLetters = [...new Set(this.word.map(l => l.name))]
+        }
+}
 </script>
 
 <style scoped>
