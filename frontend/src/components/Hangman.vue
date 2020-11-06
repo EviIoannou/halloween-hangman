@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="letters">
     {{/* Huvud */}}
     <svg
       width="334"

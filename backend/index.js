@@ -18,14 +18,14 @@ const adapter = new FileSync('db.json')
 // use with async await when write/ read with function
 const db = low(adapter)
 
-db.get('players').remove().value()
-// Set some defaults
-db.defaults({
-        games: [],
-        players: [],
-        words: []
-    })
-    .write()
+// db.get('players').remove().value()
+// // Set some defaults
+// db.defaults({
+//         games: [],
+//         players: [],
+//         words: []
+//     })
+//     .write()
 // 
 
 
@@ -101,6 +101,12 @@ io.on('connection', socket => {
             playerData.push(db.get('players').find({ id: value}).value())
         };
         socket.emit('found-players', playerData)
+    })
+    socket.on('invalidLetter', invalidLetters => {
+        io.sockets.emit('letterInvalid', invalidLetters)
+    });
+    socket.on('socketWinner', winner => {
+        io.sockets.emit('winnerSocket', winner)
     })
 })
 app.get('/word', (req, res) => {

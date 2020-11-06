@@ -25,7 +25,7 @@
             <h1 style="border-bottom: 2px solid #eee; margin-bottom: 1rem;">
               Fel bokstav
             </h1>
-            <div class="game__wrongwords">
+            <div v-if="letters" class="game__wrongwords">
               <p v-for="(letter, index) in letters" :key="letter[index]">
                 {{ letter }}
               </p>
@@ -64,7 +64,9 @@ export default {
       letters: [],
       gameId: this.$route.query.game,
       players: [],
-      winner:""
+      winner:"",
+      game: null,
+    //   word: ['h','e','j']
     };
   },
   methods: {
@@ -77,20 +79,16 @@ export default {
   },
   mounted() {
     console.log(this.gameId)
-
-    this.socket.on('connect', () => {
-        console.log('Connected')
-        this.socket.emit('get-game-data', this.gameId *1)
-        this.socket.on('found-game', data => {
-          let playerIds = data.players
-          console.log(playerIds)
-          this.socket.emit('get-players', playerIds)
-          this.socket.on('found-players', playerData => {
-            playerData.forEach(p => {
-              if (p) {this.players.push(p)} else {return null}
-              console.log(this.players)
-            });
-          })
+    this.socket.emit('get-game-data', this.gameId *1)
+    this.socket.on('found-game', data => {
+        let playerIds = data.players
+        console.log(playerIds)
+        this.socket.emit('get-players', playerIds)
+        this.socket.on('found-players', playerData => {
+        playerData.forEach(p => {
+            if (p) {this.players.push(p)} else {return null}
+            console.log(this.players)
+        });
       //find the game to join and do something with that data
       //e.g. get word for that game, player data etc.
       console.log(data) 
