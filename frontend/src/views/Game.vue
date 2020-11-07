@@ -13,12 +13,13 @@
             </h1>
             <div
               class="player__name"
-              v-for="(player, index) in players"
-              :key="player.id"
+              v-if="players"
             >
-              <template v-if="player.name !== ''">
-                Spelare {{ index + 1 }}: {{ player.name }}
-              </template>
+              <p v-for="(player, index) in players" :key="player.id">
+                <span >
+                  Spelare {{ index + 1 }}: {{ player.name }}
+                </span> 
+              </p>
             </div>
           </div>
           <div class="game__right">
@@ -36,12 +37,13 @@
           <Hangman :letters="letters" :winner="winner"/>
         </div>
 
-        <div class="game__letters">
+        <div class="game__letters" v-if="game">
           <WordValidation
             :players="players"
             @invalidLetters="onInvalidLetter"
             @winner="onWinner"
             :socket="socket"
+            :word="game.word"
           />
         </div>
       </main>
@@ -63,7 +65,7 @@ export default {
     return {
       letters: [],
       gameId: this.$route.query.game,
-      players: [],
+      players: null,
       winner:"",
       game: null,
     //   word: ['h','e','j']
@@ -77,24 +79,22 @@ export default {
       this.winner = winner
     }
   },
-  mounted() {
-    console.log(this.gameId)
-    this.socket.emit('get-game-data', this.gameId *1)
-    this.socket.on('found-game', data => {
+  async mounted() {
+    this.players = []
+    await this.socket.emit('get-game-data', parseInt(this.gameId))
+    await this.socket.on('found-game', data => {
         let playerIds = data.players
-        console.log(playerIds)
         this.socket.emit('get-players', playerIds)
-        this.socket.on('found-players', playerData => {
-        playerData.forEach(p => {
-            if (p) {this.players.push(p)} else {return null}
-            console.log(this.players)
-        });
-      //find the game to join and do something with that data
-      //e.g. get word for that game, player data etc.
-      console.log(data) 
-      }); 
-    }); 
-  },
+        this.socket.on('found-players', playerData => {     
+        this.players = [playerData[0]] 
+        if (playerData[1]) {this.players.push(playerData[1])}
+        else {return null}
+        })
+        this.game = data
+        console.log(this.game)
+        console.log(this.game.word)
+      })
+    },
     props:['socket']
 };
 </script>

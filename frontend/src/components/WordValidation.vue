@@ -1,21 +1,20 @@
 <template>
   <div v-if="word" @ id="tested-letters">
-    <!-- Show secret word when game is up -->
-    <!-- <h2 v-if="winner !==''">{{ completeWord }}</h2> -->
+
     <div id="missing-letters">
       <table>
         <!-- Reveal each letter if it is tested & valid, or if someone guessed the word -->
         <tr id="hidden-letters">
-          <template v-for="letter in word">
-            <td :key="letter.id" v-if="testedLetters.includes(letter.name) || winner !== ''">
-              {{ letter.name }}
+          <template v-for="(letter, index) in word">
+            <td :key="index" v-if="testedLetters.includes(letter) || winner !== ''">
+              {{ letter }}
             </td>
-            <td :key="letter.id" v-else> </td>
+            <td :key="index" v-else> </td>
           </template>
         </tr>
         <!-- Gaps for each letter in word -->
         <tr>
-          <td :key="letter.id" v-for="letter in word">_</td>
+          <td :key="index" v-for="(letter, index) in word">_</td>
         </tr>
       </table>
     </div>
@@ -182,10 +181,10 @@
         toggleHidden: true,
         validLetters: [],
         winner: "",
-        word: [],
+        // word: [],
         counter: 0,
-        lettersInWord: [],
-        completeWord: '',
+        // lettersInWord: [],
+        // completeWord: '',
         uniqueLetters: []
       }
     },
@@ -193,25 +192,45 @@
       addLetter(letter) {
         //When clicking on a letter, "push" to validLetters if it's included in the word,
         //otherwise push to invalidLetters
-        this.socket.emit('addedLetter', letter)
+
+        //test emitting
+        this.socket.emit('addedLetter', letter.name)
         console.log('frontend emitted') 
+      
         this.testedLetters.push(letter.name)
-        if (this.word.some(l => l.name === letter.name)) {
-            this.validLetters.push(letter.name)
+        this.validateLetter(letter.name)
+        // if (this.word.some(l => l === letter.name)) {
+        //     this.validLetters.push(letter.name)
+
+        //   if (this.validLetters.length === this.uniqueLetters.length) {
+        //     this.gameOver(this.players[0].id)
+        //   }
+
+        // } else {
+        //   this.invalidLetters.push(letter.name)
+        //   this.counter++
+        //   if (this.counter === 8) {
+        //     this.gameOver(this.players[0].id)
+        //   }
+        // }
+      },
+
+      validateLetter(letter){
+if (this.word.some(l => l === letter)) {
+            this.validLetters.push(letter)
 
           if (this.validLetters.length === this.uniqueLetters.length) {
             this.gameOver(this.players[0].id)
           }
 
         } else {
-          this.invalidLetters.push(letter.name)
+          this.invalidLetters.push(letter)
           this.counter++
           if (this.counter === 8) {
             this.gameOver(this.players[0].id)
           }
         }
       },
-
       gameOver(playerId) { // When "game over" is called, 
         //we validate the word, declare winner and hide buttons with letters
         this.validateWord(playerId)
@@ -263,62 +282,31 @@
     watch: {
       invalidLetters() {
         this.$emit('invalidLetters', this.invalidLetters)
-        this.socket.emit('invalidLetter', this.invalidLetters)
-        this.socket.on('letterInvalid', (e) => {
-            console.log(e)
-            this.$emit('invalidLetters', e)
-        }) 
       },
       winner(){
-        this.$emit('winner', this.winner)
-        this.socket.emit('socketWinner', this.winner)
-        this.socket.on('winnerSocket', (e) => {
-            console.log(e) 
-            this.$emit('winner', e)
-        }) 
+          this.$emit('winner', this.winner)
       }
-        
     },
-    props: ['socket', 'players'],
-    // , 'word'
+    props: ['socket', 'players', 'word'],
+ 
     created() {
-         fetch("http://localhost:3000/word")
-        .then((response) => response.json())
-        .then((result) => {
-          //Create an array to fill with word's letters
-          let letterObjects = [];
-          //For each letter of the word, create an object with name (letter) and unique, random id
-          //to use as key in template
-          result.map((l) =>
-            letterObjects.push({
-              name: l,
-              id: Math.floor(Math.random() * 10000),
-            })
-          )
-          this.word = letterObjects
-          // complete word
-          this.lettersInWord = this.word.map((w) => w.name)
-          this.completeWord = this.lettersInWord.join('')
-          //Get an array with all unique characters in word
-          this.uniqueLetters = [...new Set(this.word.map(l => l.name))];
-        }),
-
-
-        // //   //Create an array to fill with word's letters
-        // let letterObjects = [];
-        // this.word.map((l) => {
-        //     letterObjects.push({
-        //         name: l,
-        //         id: Math.floor(Math.random() * 10000)
-        //     })
-        // }),
-        // this.socket.emit('word', this.word),
+      this.uniqueLetters = [...new Set(this.word.map(l => l))];
+      if (this.testedLetters.length > 0 ) {
+        this.testedLetters.forEach(l => {
+          this.validateLetter(l)
+        });
+      }
+    },
+    updated() {
         this.socket.on('userAddedLetter', (e) => {
-            console.log(e)
+          console.log(e)
+          console.log(this.testedLetters)
+          if(!this.testedLetters.includes(e)) {
+            this.testedLetters.push(e)
+            this.validateLetter(e)
+          }
         })
-        //Get an array with all unique characters in word
-        // this.uniqueLetters = [...new Set(this.word.map(l => l.name))]
-        }
+    }
 }
 </script>
 
