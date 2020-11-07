@@ -30,15 +30,6 @@ const db = low(adapter)
 // 
 
 
-// // Add a word ? ex. Skapa en func som itererar över alla ord i ordlistan och skapar en lista i databasen? 
-// db.get('words')
-//     .push({
-//         id: 1,
-//         letters: ['K', 'A', 'T', 'T']
-//     })
-//     .write()
-
-
 let dictionary = ["katt", "banan", "fotboll"];
 // choose word 
 
@@ -90,39 +81,36 @@ io.on('connection', socket => {
     })
 
     socket.on('get-game-data', gameId => {
-        console.log(gameId)
+        // console.log(gameId)
         let data = db.get('games').find({ id : gameId}).value()
-        console.log(data)
+        // console.log(data)
         io.sockets.emit('found-game', data) 
     })
 
     socket.on('get-players', playerIds => {
         let playerData = [];
-        console.log("ids " + playerIds)
+        // console.log("ids " + playerIds)
         for (let value of Object.values(playerIds)) {
             console.log(value)
              playerData.push(db.get('players').find({ id: value}).value())   
         };
         console.log(playerData)
         socket.emit('found-players', playerData)
-    })
-    socket.on('invalidLetter', invalidLetters => {
-        io.sockets.emit('letterInvalid', invalidLetters)
     });
+
     socket.on('testedLetter', testedLetters => {
         io.sockets.emit('letterTested', testedLetters)
     });
-    socket.on('validLetter', validLetters => {
-        io.sockets.emit('letterValid', validLetters)
+
+    socket.on('guessedWord', word => {
+        io.sockets.emit('wordGuessed', word)
     });
-    // socket.on('socketWinner', winner => {
-    //     io.sockets.emit('winnerSocket', winner)
-    // })
+
+    socket.on('gameOver', gameId => {
+        console.log(gameId)
+        db.get('games').find({ id: gameId}).assign({ gameOver: true}).write()
+        // let game = db.get('games').find({ id: gameId}).value()
+        // console.log(game)
+        console.log('Game over ? ' + db.get('games').find({ id: gameId}).value().gameOver)
+    }) 
 })
-// app.get('/word', (req, res) => {
-//     let dictionary = ["katt", "banan", "fotboll"];
-//     // choose word 
-//     let chosenWord = dictionary[Math.floor(Math.random() * dictionary.length)];
-//     let word = chosenWord.split('');
-//     res.send(word);
-// })

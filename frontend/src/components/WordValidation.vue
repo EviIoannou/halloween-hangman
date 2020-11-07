@@ -42,10 +42,10 @@
       <h1> {{ winner.name }} vinner!</h1>
       <p id="link">
         <router-link to="/">
-        <button id="restart">Börja en ny spel</button>
-      </router-link>
+          <button id="restart">Börja en ny spel</button>
+        </router-link>
       </p>
-      
+
     </div>
 
 
@@ -53,11 +53,36 @@
 </template>
 
 <script>
-
   export default {
+    created() {
+      this.uniqueLetters = [...new Set(this.word.map(l => l))];
+      this.completeWord = this.word.join('')
+    },
 
+    updated() {
+      this.socket.on('userAddedLetter', (e) => {
+        if (!this.testedLetters.includes(e)) {
+          this.testedLetters.push(e)
+          this.validateLetter(e)
+        }
+      })
+
+      this.socket.on('wordGuessed', wordGuessed => {
+        if (!this.guessedWord && !this.winner) {
+          console.log(wordGuessed)
+          this.guessedWord = wordGuessed
+          this.gameOver(this.players[0].id)
+        } else {
+          return null
+        }
+      })
+    },
     data() {
       return {
+        counter: 0,
+        completeWord: "",
+        guessedWord: "",
+        invalidLetters: [],
         letters: [{
             name: "a",
             id: 1,
@@ -71,7 +96,7 @@
             id: 3,
           },
           {
-           name: "d",
+            name: "d",
             id: 4
           },
           {
@@ -175,17 +200,11 @@
             id: 29,
           },
         ],
-        guessedWord: "",
-        invalidLetters: [],
         testedLetters: [],
         toggleHidden: true,
+        uniqueLetters: [],
         validLetters: [],
-        winner: "",
-        // word: [],
-        counter: 0,
-        // lettersInWord: [],
-        // completeWord: '',
-        uniqueLetters: []
+        winner: ""
       }
     },
     methods: {
@@ -195,29 +214,15 @@
 
         //test emitting
         this.socket.emit('addedLetter', letter.name)
-        console.log('frontend emitted') 
-      
+        console.log('frontend emitted')
+
         this.testedLetters.push(letter.name)
         this.validateLetter(letter.name)
-        // if (this.word.some(l => l === letter.name)) {
-        //     this.validLetters.push(letter.name)
-
-        //   if (this.validLetters.length === this.uniqueLetters.length) {
-        //     this.gameOver(this.players[0].id)
-        //   }
-
-        // } else {
-        //   this.invalidLetters.push(letter.name)
-        //   this.counter++
-        //   if (this.counter === 8) {
-        //     this.gameOver(this.players[0].id)
-        //   }
-        // }
       },
 
-      validateLetter(letter){
-if (this.word.some(l => l === letter)) {
-            this.validLetters.push(letter)
+      validateLetter(letter) {
+        if (this.word.some(l => l === letter)) {
+          this.validLetters.push(letter)
 
           if (this.validLetters.length === this.uniqueLetters.length) {
             this.gameOver(this.players[0].id)
@@ -238,6 +243,7 @@ if (this.word.some(l => l === letter)) {
       },
 
       validateWord(playerId) {
+        this.socket.emit('guessedWord', this.guessedWord)
         let player = null
 
         //Find who is the current player 
@@ -248,19 +254,17 @@ if (this.word.some(l => l === letter)) {
         }
 
         //If current player guessed the word right, or chose the last valid letter this player wins
-        if (this.completeWord === this.guessedWord || this.validLetters.length === this.uniqueLetters.length) 
-        { this.winner = player  } 
-
-        else if (this.guessedWord === "") {
+        if (this.completeWord === this.guessedWord || this.validLetters.length === this.uniqueLetters.length) {
+          this.winner = player
+        } else if (this.guessedWord === "") {
           this.winner = {
-                name: "Pumpan",
-                id: 0
-              }}
-        
-        else if(this.completeWord !== this.guessedWord) {
+            name: "Pumpan",
+            id: 0
+          }
+        } else if (this.completeWord !== this.guessedWord) {
           if (player == this.players[0]) {
             // if there are more than one players the other player wins, otherwise no one wins
-            if (this.players[1].name) {
+            if (this.players[1]) {
               this.winner = this.players[1]
             } else {
               this.winner = {
@@ -273,41 +277,23 @@ if (this.word.some(l => l === letter)) {
             this.winner = this.players[0]
           }
         }
-  
+
         //Hide "Guess" input field and button; reveal button/router-link to start new game
         this.toggleHidden = true;
       },
     },
-    name: "WordValidation",
+    
     watch: {
       invalidLetters() {
         this.$emit('invalidLetters', this.invalidLetters)
       },
-      winner(){
-          this.$emit('winner', this.winner)
+      winner() {
+        this.$emit('winner', this.winner)
       }
     },
-    props: ['socket', 'players', 'word'],
- 
-    created() {
-      this.uniqueLetters = [...new Set(this.word.map(l => l))];
-      if (this.testedLetters.length > 0 ) {
-        this.testedLetters.forEach(l => {
-          this.validateLetter(l)
-        });
-      }
-    },
-    updated() {
-        this.socket.on('userAddedLetter', (e) => {
-          console.log(e)
-          console.log(this.testedLetters)
-          if(!this.testedLetters.includes(e)) {
-            this.testedLetters.push(e)
-            this.validateLetter(e)
-          }
-        })
-    }
-}
+    name: "WordValidation",
+    props: ['socket', 'players', 'word']
+  }
 </script>
 
 <style scoped>
@@ -330,7 +316,7 @@ if (this.word.some(l => l === letter)) {
     color: black;
     cursor: default;
   }
-  
+
   #letter-buttons {
     display: flex;
     align-items: center;
@@ -376,24 +362,25 @@ if (this.word.some(l => l === letter)) {
     outline-width: 0;
   }
 
-  #submit-guess, #restart {
-  background-color: #e56400;
-  color: black;
-  cursor: pointer;
-  font-weight: bold;
-  border-radius: 4px;
-  border-style: none;
-  padding: 0.8rem;
+  #submit-guess,
+  #restart {
+    background-color: #e56400;
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    border-style: none;
+    padding: 0.8rem;
   }
 
   #guess-button {
-  background-color: rgba(0, 0, 0, 0.5);
-  color:  #cc5800;
-  cursor: pointer;
-  font-weight: bold;
-  border-radius: 4px;
-  border-style: none;
-  padding: 0.8rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #cc5800;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    border-style: none;
+    padding: 0.8rem;
   }
 
   .winner {
@@ -402,7 +389,7 @@ if (this.word.some(l => l === letter)) {
     align-items: center;
   }
 
-  .winner h1{
+  .winner h1 {
     margin-bottom: 0.5em;
   }
 
@@ -410,7 +397,7 @@ if (this.word.some(l => l === letter)) {
     margin-bottom: 1em;
   }
 
-  #hidden-letters{
+  #hidden-letters {
     height: 3vh;
   }
 
@@ -418,5 +405,5 @@ if (this.word.some(l => l === letter)) {
     width: 5vh;
     padding: 0;
     font-size: large;
-  } 
+  }
 </style>

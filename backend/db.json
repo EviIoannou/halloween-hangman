@@ -1,5 +1,94 @@
 {
-  "games": [],
-  "players": [],
+  "games": [
+    {
+      "id": 377,
+      "players": {
+        "player1": "Xk_0D1UJWF7SeGKsAAAA",
+        "player2": null
+      },
+      "word": [
+        "f",
+        "o",
+        "t",
+        "b",
+        "o",
+        "l",
+        "l"
+      ],
+      "room": "Xk_0D1UJWF7SeGKsAAAA",
+      "gameOver": false
+    },
+    {
+      "id": 243,
+      "players": {
+        "player1": "rgs9oPnW7OdYIRzoAAAG",
+        "player2": null
+      },
+      "word": [
+        "k",
+        "a",
+        "t",
+        "t"
+      ],
+      "room": "rgs9oPnW7OdYIRzoAAAG",
+      "gameOver": false
+    },
+    {
+      "id": 420,
+      "players": {
+        "player1": "kLhy7cslm44rbfOOAAAB",
+        "player2": null
+      },
+      "word": [
+        "f",
+        "o",
+        "t",
+        "b",
+        "o",
+        "l",
+        "l"
+      ],
+      "room": "kLhy7cslm44rbfOOAAAB",
+      "gameOver": true
+    },
+    {
+      "id": 94,
+      "players": {
+        "player1": "ZjVIe15GM-kSFZZjAAAC",
+        "player2": null
+      },
+      "word": [
+        "b",
+        "a",
+        "n",
+        "a",
+        "n"
+      ],
+      "room": "ZjVIe15GM-kSFZZjAAAC",
+      "gameOver": true
+    }
+  ],
+  "players": [
+    {
+      "name": "Evi",
+      "id": "Xk_0D1UJWF7SeGKsAAAA",
+      "turn": true
+    },
+    {
+      "name": "Elli",
+      "id": "rgs9oPnW7OdYIRzoAAAG",
+      "turn": true
+    },
+    {
+      "name": "Eleni",
+      "id": "kLhy7cslm44rbfOOAAAB",
+      "turn": true
+    },
+    {
+      "name": "Elli",
+      "id": "ZjVIe15GM-kSFZZjAAAC",
+      "turn": true
+    }
+  ],
   "words": []
 }

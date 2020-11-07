@@ -68,7 +68,6 @@ export default {
       players: null,
       winner:"",
       game: null,
-    //   word: ['h','e','j']
     };
   },
   methods: {
@@ -77,8 +76,10 @@ export default {
     },
     onWinner(winner){
       this.winner = winner
+      this.socket.emit('gameOver', parseInt(this.gameId))
     }
   },
+
   async mounted() {
     this.players = []
     await this.socket.emit('get-game-data', parseInt(this.gameId))
