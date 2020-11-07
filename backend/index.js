@@ -18,7 +18,8 @@ const adapter = new FileSync('db.json')
 // use with async await when write/ read with function
 const db = low(adapter)
 
-// db.get('players').remove().value()
+// db.get('games').remove().write()
+
 // // Set some defaults
 // db.defaults({
 //         games: [],
@@ -97,22 +98,31 @@ io.on('connection', socket => {
 
     socket.on('get-players', playerIds => {
         let playerData = [];
+        console.log("ids " + playerIds)
         for (let value of Object.values(playerIds)) {
-            playerData.push(db.get('players').find({ id: value}).value())
+            console.log(value)
+             playerData.push(db.get('players').find({ id: value}).value())   
         };
+        console.log(playerData)
         socket.emit('found-players', playerData)
     })
     socket.on('invalidLetter', invalidLetters => {
         io.sockets.emit('letterInvalid', invalidLetters)
     });
-    socket.on('socketWinner', winner => {
-        io.sockets.emit('winnerSocket', winner)
-    })
+    socket.on('testedLetter', testedLetters => {
+        io.sockets.emit('letterTested', testedLetters)
+    });
+    socket.on('validLetter', validLetters => {
+        io.sockets.emit('letterValid', validLetters)
+    });
+    // socket.on('socketWinner', winner => {
+    //     io.sockets.emit('winnerSocket', winner)
+    // })
 })
-app.get('/word', (req, res) => {
-    let dictionary = ["katt", "banan", "fotboll"];
-    // choose word 
-    let chosenWord = dictionary[Math.floor(Math.random() * dictionary.length)];
-    let word = chosenWord.split('');
-    res.send(word);
-})
+// app.get('/word', (req, res) => {
+//     let dictionary = ["katt", "banan", "fotboll"];
+//     // choose word 
+//     let chosenWord = dictionary[Math.floor(Math.random() * dictionary.length)];
+//     let word = chosenWord.split('');
+//     res.send(word);
+// })
